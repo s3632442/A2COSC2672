@@ -1,0 +1,37 @@
+#!/bin/bash
+#echo "hello world"
+#echo $0
+
+#!/bin/bash 
+# Basic while loop 
+#counter=1 
+#while [[ "$counter" -le "10"  ]] ; do  
+#echo $counter 
+#((counter++)) 
+#done
+
+# Basic for loop 
+names='Stan Kyle Cartman' 
+for name in $names ; do 
+echo $name 
+done
+
+# Basic function
+
+message='SUCK A DICK!!'
+
+print_something () {
+echo Hello I am a function
+echo $message
+}
+print_something
+print_something
+
+# Setting a return status for a function
+print_something () {
+echo Hello $1
+return 5
+}
+print_something Mars
+print_something Jupiter
+echo The previous function has a return value of $?
