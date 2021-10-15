@@ -1,10 +1,10 @@
-#!/bin/sh 
+#!/bin/bash
  
-_DEBUG="on" 
+
 function DEBUG() 
 { 
                      ["$_DEBUG" == "on" ] && $@ 
-} 
+}
  
 DEBUG echo 'Reading files' 
 for i in * 
