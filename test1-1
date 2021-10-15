@@ -1,0 +1,29 @@
+#!/bin/bash
+
+i=0;
+
+while [[ "$1" ]] 
+
+do 
+
+
+
+((i=i+1))
+
+echo $"inc =" $i
+
+
+echo "$1" 
+
+
+ 
+shift 
+
+done
+
+echo "$2"
+
+names='Stan Kyle Cartman' 
+for name in $names ; do 
+echo $name 
+done
