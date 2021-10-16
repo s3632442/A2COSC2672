@@ -1,14 +1,33 @@
 #!/bin/bash
 
-echo "this is horse shit"
+echo "running copy script"
 
-one="./sometext1.txt"
-two="./sometex0t2.txt"
+if [[ ! -f "$HOME/backup" ]]
+then
+	mkdir "$HOME/backup"
+fi
+if [[ -f "$HOME/backup" ]]
+then 
+	echo file created
+else 
+	echo backupfolder exists
+fi
 
-cp $one $two
+one="$HOME/client.cert"
+two="$HOME/backup/client.cert"
+three="$HOME/client.key"
+four="$HOME/backup/client.key"
 
-ls -lh $two
+
+
+cp "$one" "$two"
+
+cp "$three" "$four"
+
+ls -lh "$two"
+
+ls -h "$four"
 
 if [[ "$?" -eq "0" ]] ; then echo "It Copied" ; else echo "Bullshit!"
-	 fi
-
+	 
+fi
