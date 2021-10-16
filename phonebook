@@ -1,0 +1,70 @@
+#!/bin/sh 
+ 
+PRINTF=/usr/bin/printf  
+LS=/bin/ls 
+ 
+PWD=/bin/pwd 
+SLEEP=/bin/sleep 
+QUIT=0 
+menu(){ 
+$CLEAR 
+$PRINTF "\n" 
+$PRINTF " User Menu System\n" 
+$PRINTF " ==================\n" 
+$PRINTF "\n" 
+$PRINTF " Anne) Annes Number\n" 
+$PRINTF " John) Jhon Number\n" 
+$PRINTF " Mary) Mary Number\n" 
+$PRINTF " Ron) Rons Number\n" 
+$PRINTF "\n" 
+$PRINTF " Q) Quit this menu system\n" 
+$PRINTF "\n" 
+$PRINTF "\n" 
+$PRINTF " Enter your choice ==> " 
+return 
+}
+while [ $QUIT -eq 0 ] ; do  
+menu 
+ 
+read CHOICE  
+case $CHOICE in 
+Anne)  
+$PRINTF "\n"  
+$PRINTF "\n" 
+echo $CHOICE
+$PRINTF "10\n"  
+$SLEEP 5 
+;; 
+ 
+John)  
+$PRINTF "\n"  
+$PRINTF "\n"  
+$PRINTF "11\n"  
+echo $CHOICE
+$SLEEP 5 
+;; 
+ 
+Mary)  
+$PRINTF "\n"  
+$PRINTF "\n"  
+$PRINTF "12\n"  
+echo $CHOICE
+$SLEEP 5 
+;; 
+Ron) 
+$PRINTF "\n" 
+$PRINTF "\n" 
+$PRINTF "13\n"   
+echo $CHOICE
+$SLEEP 5 
+;; 
+[Qq])  
+QUIT=1;; 
+?)  
+$PRINTF "\n" 
+$PRINTF "\n" 
+$PRINTF "Invalid option entered\n" 
+$PRINTF "Valid options are Anne, John, Mary, Ron, and Q\n" 
+$SLEEP 5;; 
+esac 
+done

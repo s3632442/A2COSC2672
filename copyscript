@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "this is horse shit"
+
+one="./sometext1.txt"
+two="./sometex0t2.txt"
+
+cp $one $two
+
+ls -lh $two
+
+if [[ "$?" -eq "0" ]] ; then echo "It Copied" ; else echo "Bullshit!"
+	 fi
+
