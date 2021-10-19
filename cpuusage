@@ -15,3 +15,5 @@ echo "sysstat"
         else
             echo    "installed"
     fi
+
+echo CPU USAGE ; mpstat
