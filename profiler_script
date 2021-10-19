@@ -1,0 +1,14 @@
+#!/bin/bash
+
+profiler_run=5
+
+while [[ profiler_run -gt 0  ]] ; do  
+
+sleep .1
+
+sudo vcgencmd get_config int |
+
+egrep "(gpu)_freq"
+
+((profiler_run--)) 
+done
