@@ -22,13 +22,13 @@ while [[ profiler_run -ge 0  ]] ; do
 
 sleep .1
 
-cputemp=$((`cat /sys/class/thermal/thermal_zone0/temp|cut -c1-2`)).$((`cat /sys/class/thermal/thermal_zone0/temp|cut -c3-5`))
+cputemp=$(cat /sys/class/thermal/thermal_zone0/temp|cut -c1-2)
 
-echo CPU TEMP IS $cputemp
+echo CPU TEMP IS "$cputemp"
 
 echo GPU FREQ IS ; 
 
-sudo vcgencmd get_config int |
+vcgencmd get_config int |
 
 egrep "(gpu)_freq"
  
