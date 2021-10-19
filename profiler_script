@@ -1,14 +1,27 @@
 #!/bin/bash
 
-profiler_run=5
+#sudo apt install sysstat
 
-while [[ profiler_run -gt 0  ]] ; do  
+profiler_run=10
 
-sleep .1
+while [[ profiler_run -ge 0  ]] ; do  
+
+sleep 1
+
+cputemp=$((`cat /sys/class/thermal/thermal_zone0/temp|cut -c1-2`)).$((`cat /sys/class/thermal/thermal_zone0/temp|cut -c3-5`))
+
+echo CPU TEMP IS $cputemp
+
+echo GPU FREQ IS ; 
 
 sudo vcgencmd get_config int |
 
 egrep "(gpu)_freq"
+ 
+echo MEMORY STATS ARE ; free
+
+echo CPU USAGE ; mpstat
 
 ((profiler_run--)) 
+
 done
