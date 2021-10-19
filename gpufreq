@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo vcgencmd get_config int |
+
+egrep "(gpu)_freq"
