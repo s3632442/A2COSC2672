@@ -1,0 +1,17 @@
+#!/bin/bash
+
+dpkg -s sysstat &> /dev/null
+
+echo "sysstat"
+
+
+    if ! dpkg -s sysstat &> /dev/null
+
+        then
+            echo "not installed"  
+            sudo apt-get update
+            sudo apt-get install $name
+
+        else
+            echo    "installed"
+    fi
