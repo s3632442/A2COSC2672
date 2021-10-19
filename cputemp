@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cputemp=$((`cat /sys/class/thermal/thermal_zone0/temp|cut -c1-2`)).$((`cat /sys/class/thermal/thermal_zone0/temp|cut -c3-5`))
+
+echo CPU TEMP IS $cputemp
