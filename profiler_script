@@ -1,12 +1,26 @@
 #!/bin/bash
 
-#sudo apt install sysstat
+dpkg -s sysstat &> /dev/null
+
+echo "sysstat"
+
+
+    if ! dpkg -s sysstat &> /dev/null
+
+        then
+            echo "not installed"  
+            sudo apt-get update
+            sudo apt-get install sysstat
+
+        else
+            echo    "installed"
+    fi
 
 profiler_run=10
 
 while [[ profiler_run -ge 0  ]] ; do  
 
-sleep 1
+sleep .1
 
 cputemp=$((`cat /sys/class/thermal/thermal_zone0/temp|cut -c1-2`)).$((`cat /sys/class/thermal/thermal_zone0/temp|cut -c3-5`))
 
