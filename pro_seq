@@ -4,6 +4,27 @@ trap endseq INT
 
 dpkg -s sysstat &> /dev/null
 
+endseq() { 
+
+echo -  -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   
+
+./cpu_temp
+
+./gpu_temp
+
+./cpu_freq
+
+./mem_stat
+
+./cpu_use
+    
+sleep 2
+
+    echo -  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -   
+
+    exit 0
+}
+
 echo "sysstat"
 
     if ! dpkg -s sysstat &> /dev/null
@@ -17,22 +38,7 @@ echo "sysstat"
             echo    "installed"
     fi
 
-RUNMETRICS= true
-
-
-endseq() { 
-
-    echo -  -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   
-    
-sleep 2
-
-    echo -  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -   
-
-    exit 0
-}
-
-
-while [[ RUNMETRICS -eq true ]] ; do
+while true ; do
 
 sleep 1
 

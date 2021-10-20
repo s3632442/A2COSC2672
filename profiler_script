@@ -1,0 +1,130 @@
+#!/bin/bash
+
+echo To exit at any time type \"kill -USR1 $$\"
+
+#trap signal, call close sequence
+trap close USR1
+
+#close sequence
+close() { 
+
+#inform user
+#echo -  -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   
+
+#get cpu temp, format data and save to log
+CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
+
+echo "$CPUTEMP" >> ./logs/cputmp.txt
+
+#get gpu temp, format data and save to log
+GPUTMP=$((vcgencmd measure_temp) | cut -c6-9) 
+
+echo $GPUTMP >> ./logs/gputemp.txt
+
+#get cpu freq, format data and save to log
+CLOCKHZ=$((vcgencmd measure_clock arm) | cut -c15-25) 
+
+MHZDV=100000000 
+
+CLKMHZ=$((CLOCKHZ / MHZDV)) 
+
+
+echo $CLKMHZ >> ./logs/cpufreq.txt
+
+#get memory stats, format data and save to log
+MSTAT=$(free -h | cut -c13-80)
+
+MSTAT=$(echo $MSTAT | sed -e "s/total used free shared buff\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
+
+echo $MSTAT  >> ./logs/mstat.txt
+
+#get cpu use, format data and save to log
+CPUU=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3, \$4, \$5, \$6, \$7, \$8, \$9, \$10, \$11, \$12}")
+
+echo $CPUU >> ./logs/cpuu.txt
+    
+echo -  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  
+
+#delay to make sequence change obvious    
+sleep 2
+
+#inform user
+echo -  -  -   -   -   -   -  - PROFILER CLOSED - -   -   -   -   -   -   -   -   
+
+#exit and set code
+exit 0
+
+}
+
+#inform user
+echo echo -  -  -   -   -   - STARTING PROFILER - -   -   -   -   -   -   -   -   
+
+echo "sysstat is required"
+
+echo "checking if installed"
+
+#check if sysstat is installed
+if ! dpkg -s sysstat &> /dev/null
+
+#if not installed, update and install
+then
+
+echo "not installed - installing"  
+
+sudo apt-get update
+
+sudo apt-get install sysstat
+
+echo "installed - continuing"
+
+#if installed continue without installing
+else
+
+echo    "installed"
+
+fi
+
+echo -  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -   -   -   -   -  
+
+#loop functions to collect metrics every one second
+while true ; do
+
+#delay timer
+sleep 1
+
+#inform user
+#echo -  -   -   -   -   -   -   - RUNNING - -   -   -   -   -   -   -   -   
+
+#get cpu temp, format data and save to log
+CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
+
+echo "$CPUTEMP" >> ./logs/cputmp.txt
+
+#get gpu temp, format data and save to log
+GPUTMP=$((vcgencmd measure_temp) | cut -c6-9) 
+
+echo $GPUTMP >> ./logs/gputemp.txt
+
+#get cpu freq, format data and save to log
+CLOCKHZ=$((vcgencmd measure_clock arm) | cut -c15-25) 
+
+MHZDV=100000000 
+
+CLKMHZ=$((CLOCKHZ / MHZDV)) 
+
+
+echo $CLKMHZ >> ./logs/cpufreq.txt
+
+#get memory stats, format data and save to log
+MSTAT=$(free -h | cut -c13-80)
+
+MSTAT=$(echo $MSTAT | sed -e "s/total used free shared buff\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
+
+echo $MSTAT  >> ./logs/mstat.txt
+
+#get cpu use, format data and save to log
+CPUU=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3, \$4, \$5, \$6, \$7, \$8, \$9, \$10, \$11, \$12}")
+
+echo $CPUU >> ./logs/cpuu.txt
+
+done
