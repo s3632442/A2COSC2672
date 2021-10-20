@@ -1,14 +1,14 @@
 #!/bin/bash
 
 CLOCKHZ=$((vcgencmd measure_clock arm) | cut -c15-25) 
-echo $CLOCKHZ
+
 MHZDV=1000000 
-echo $MHZDV
+
 CLKMHZ=$((CLOCKHZ / MHZDV)) 
 
 echo $CLKMHZ 
 
-
+echo $CLKMHZ >> clkmhz.txt
 
 
 
