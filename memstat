@@ -1,0 +1,7 @@
+#!/bin/bash
+
+MSTAT=$(free)
+
+echo $MSTAT >> mstat.txt
+
+cat mstat.txt

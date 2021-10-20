@@ -16,4 +16,8 @@ echo "sysstat"
             echo    "installed"
     fi
 
-echo CPU USAGE ; mpstat
+CPUU=$(mpstat)
+
+echo $CPUU >> cpuu.txt
+
+cat cpuu.txt

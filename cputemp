@@ -1,5 +1,9 @@
 #!/bin/bash
 
-cputemp=$(cat /sys/class/thermal/thermal_zone0/temp|cut -c1-2)
+CPUTEMP=$(cat /sys/class/thermal/thermal_zone0/temp|cut -c1-2)
 
-echo CPU TEMP IS "$cputemp"
+echo "$CPUTEMP"
+
+echo "$CPUTEMP" >> cputmp.txt
+
+cat cputmp.txt

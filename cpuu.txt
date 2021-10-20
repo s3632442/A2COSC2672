@@ -1,0 +1,4 @@
+Linux 5.10.73s3632442+ (raspberrypi) 20/10/21 _armv7l_ (4 CPU) 18:20:11 CPU %usr %nice %sys %iowait %irq %soft %steal %guest %gnice %idle 18:20:11 all 0.09 0.00 0.12 0.04 0.00 0.00 0.00 0.00 0.00 99.75
+Linux 5.10.73s3632442+ (raspberrypi) 20/10/21 _armv7l_ (4 CPU) 18:20:19 CPU %usr %nice %sys %iowait %irq %soft %steal %guest %gnice %idle 18:20:19 all 0.09 0.00 0.12 0.04 0.00 0.00 0.00 0.00 0.00 99.75
+Linux 5.10.73s3632442+ (raspberrypi) 20/10/21 _armv7l_ (4 CPU) 18:20:22 CPU %usr %nice %sys %iowait %irq %soft %steal %guest %gnice %idle 18:20:22 all 0.09 0.00 0.12 0.04 0.00 0.00 0.00 0.00 0.00 99.74
+Linux 5.10.73s3632442+ (raspberrypi) 20/10/21 _armv7l_ (4 CPU) 18:23:07 CPU %usr %nice %sys %iowait %irq %soft %steal %guest %gnice %idle 18:23:07 all 0.09 0.00 0.12 0.04 0.00 0.00 0.00 0.00 0.00 99.75
