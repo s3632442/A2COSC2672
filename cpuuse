@@ -1,25 +1,8 @@
 #!/bin/bash
 
-# dpkg -s sysstat &> /dev/null
-
-# echo "sysstat"
-
-
-#     if ! dpkg -s sysstat &> /dev/null
-
-#         then
-#             echo "not installed"  
-#             sudo apt-get update
-#             sudo apt-get install sysstat
-
-#         else
-#             echo    "installed"
-#     fi
-
 CPUU=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3, \$4, \$5, \$6, \$7, \$8, \$9, \$10, \$11, \$12}")
 
-echo $CPUU >> cpuu.txt
+echo $CPUU >> ./logs/cpuu.txt
 
-#cat cpuu.txt
 echo cpu use
-tail -n 1 cpuu.txt
+tail -n 1 ./logs/cpuu.txt

@@ -1,11 +1,39 @@
 #!/bin/bash
 
-./cputemp
+dpkg -s sysstat &> /dev/null
 
-./gputemp
+echo "sysstat"
 
-./cpufreq
 
-./memstat
+    if ! dpkg -s sysstat &> /dev/null
 
-./cpuuse
+        then
+            echo "not installed"  
+            sudo apt-get update
+            sudo apt-get install sysstat
+
+        else
+            echo    "installed"
+    fi
+
+profiler_run=10
+
+while [[ profiler_run -ge 0  ]] ; do  
+
+sleep 1
+
+echo -	-	-	-	-	-	- RUNNING -	-	-	-	-	-	-	-	-	
+
+./cpu_temp
+
+./gpu_temp
+
+./cpu_freq
+
+./mem_stat
+
+./cpu_use
+
+((profiler_run--)) 
+
+done

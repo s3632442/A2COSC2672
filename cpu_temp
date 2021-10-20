@@ -6,6 +6,5 @@ CPUTEMP=$(awk '{print $1/1000}' /sys/class/thermal/thermal_zone0/temp | cut -c1-
 
 echo "$CPUTEMP" >> ./logs/cputmp.txt
 
-#cat cputmp.txt
 echo cpu temp
-tail -n 1 cputmp.txt
+tail -n 1 ./logs/cputmp.txt

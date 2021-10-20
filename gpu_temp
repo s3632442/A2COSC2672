@@ -2,8 +2,7 @@
 
 GPUTMP=$((vcgencmd measure_temp) | cut -c6-9) 
 
-echo $GPUTMP >> gputemp.txt
+echo $GPUTMP >> ./logs/gputemp.txt
 
-#cat gputemp.txt
 echo gpu temp
-tail -n 1 gputemp.txt
+tail -n 1 ./logs/gputemp.txt
