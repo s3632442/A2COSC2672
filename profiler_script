@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo To exit at any time type \"kill -USR1 $$\"
+printf "\nTo exit at any time type \"kill -USR1 $$\""
 
 #trap signal, call close sequence
 trap close USR1
@@ -9,7 +9,9 @@ trap close USR1
 close() { 
 
 #inform user
-#echo -  -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   
+printf "\n-  -   -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   "
+
+sleep 1
 
 #get cpu temp, format data and save to log
 CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
@@ -43,13 +45,13 @@ CPUU=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3, \$4, \$5, \$6, \$7, \
 
 echo $CPUU >> ./logs/cpuu.txt
     
-echo -  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  
+printf "\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 
 #delay to make sequence change obvious    
-sleep 2
+sleep 1
 
 #inform user
-echo -  -  -   -   -   -   -  - PROFILER CLOSED - -   -   -   -   -   -   -   -   
+printf "\n-  -  -   -   -   -   -  - PROFILER CLOSED - -   -   -   -   -   -   -   -   "
 
 #exit and set code
 exit 0
@@ -57,11 +59,11 @@ exit 0
 }
 
 #inform user
-echo echo -  -  -   -   -   - STARTING PROFILER - -   -   -   -   -   -   -   -   
+printf "\n-  -  -   -   -   - STARTING PROFILER - -   -   -   -   -   -   -   -   "
 
-echo "sysstat is required"
+printf "\nsysstat is required"
 
-echo "checking if installed"
+printf "\nchecking if installed"
 
 #check if sysstat is installed
 if ! dpkg -s sysstat &> /dev/null
@@ -69,18 +71,18 @@ if ! dpkg -s sysstat &> /dev/null
 #if not installed, update and install
 then
 
-echo "not installed - installing"  
+printf "\nnot installed - installing"  
 
 sudo apt-get update
 
 sudo apt-get install sysstat
 
-echo "installed - continuing"
+printf "\installed - continuing"
 
 #if installed continue without installing
 else
 
-echo    "installed"
+printf    "\ninstalled"
 
 fi
 
@@ -91,9 +93,6 @@ while true ; do
 
 #delay timer
 sleep 1
-
-#inform user
-#echo -  -   -   -   -   -   -   - RUNNING - -   -   -   -   -   -   -   -   
 
 #get cpu temp, format data and save to log
 CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
