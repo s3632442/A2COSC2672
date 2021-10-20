@@ -6,4 +6,6 @@ MSTAT=$(echo $MSTAT | sed -e "s/total used free shared buff\/cache available //g
 
 echo $MSTAT  >> mstat.txt
 
-cat mstat.txt
+#cat mstat.txt
+echo mem sats
+tail -n 1 mstat.txt

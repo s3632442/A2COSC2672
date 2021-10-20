@@ -1,23 +1,25 @@
 #!/bin/bash
 
-dpkg -s sysstat &> /dev/null
+# dpkg -s sysstat &> /dev/null
 
-echo "sysstat"
+# echo "sysstat"
 
 
-    if ! dpkg -s sysstat &> /dev/null
+#     if ! dpkg -s sysstat &> /dev/null
 
-        then
-            echo "not installed"  
-            sudo apt-get update
-            sudo apt-get install sysstat
+#         then
+#             echo "not installed"  
+#             sudo apt-get update
+#             sudo apt-get install sysstat
 
-        else
-            echo    "installed"
-    fi
+#         else
+#             echo    "installed"
+#     fi
 
 CPUU=$(mpstat)
 
 echo $CPUU >> cpuu.txt
 
-cat cpuu.txt
+#cat cpuu.txt
+echo cpu use
+tail -n 1 cpuu.txt

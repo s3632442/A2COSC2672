@@ -1,0 +1,11 @@
+#!/bin/bash
+
+./cputemp
+
+./gputemp
+
+./cpufreq
+
+./memstat
+
+./cpuuse

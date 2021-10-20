@@ -9,7 +9,9 @@ CLKMHZ=$((CLOCKHZ / MHZDV))
 
 echo $CLKMHZ >> cpufreq.txt
 
-cat cpufreq.txt
+#cat cpufreq.txt
+echo cpu freqency
+tail -n 1 cpufreq.txt
 
 
 

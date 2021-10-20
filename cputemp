@@ -4,4 +4,6 @@ CPUTEMP=$((`cat /sys/class/thermal/thermal_zone0/temp|cut -c1-2`)).$((`cat /sys/
 
 echo "$CPUTEMP" >> cputmp.txt
 
-cat cputmp.txt
+#cat cputmp.txt
+echo cpu temp
+tail -n 1 cputmp.txt
