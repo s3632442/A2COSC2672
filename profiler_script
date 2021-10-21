@@ -132,23 +132,23 @@ echo $SECINC $CPUPCT >> ./logs/cpuidl.dat
 printf "\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 
 #plot cpu psercentages
-gnuplot -e "set xlabel \"PERCENTAGE\"; plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
+gnuplot -e "set ylabel \"PERCENTAGE\"; set xlabel \"seconds\"; plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
 \"./logs/cpusys.dat\" using 2 title 'SYSTEM' with lines, \
 \"./logs/cpuidl.dat\" using 2 title 'IDLE' with lines; pause -1"
 
 #plot cpu and gpu temp
-gnuplot -e "set xlabel \"TEMP DEGREES\"; plot \"./logs/cputemp.dat\" using 2 title 'CPUTEMP' with lines, \
+gnuplot -e "set ylabel \"TEMP DEGREES\"; set xlabel \"seconds\"; plot \"./logs/cputemp.dat\" using 2 title 'CPUTEMP' with lines, \
 \"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with lines; pause -1"
 
 #memory 1 Gi
-gnuplot -e "set xlabel \"Gi\"; plot \"./logs/mmto.dat\" using 2 title 'mem-total' with lines, \
+gnuplot -e "set ylabel \"Gi\"; set xlabel \"seconds\"; plot \"./logs/mmto.dat\" using 2 title 'mem-total' with lines, \
 \"./logs/mmfr.dat\" using 2 title 'mem-free' with lines, \
 \"./logs/mmca.dat\" using 2 title 'mem-cache' with lines, \
 \"./logs/cpufreq.dat\" using 2 title 'cpu-freq' with lines, \
 \"./logs/mmav.dat\" using 2 title 'mem-avail' with lines; pause -1"
 
 #memory 3 Mi
-gnuplot -e "set xlabel \"Mi\"; plot \"./logs/mmus.dat\" using 2 title 'mem-used' with lines, \
+gnuplot -e "set ylabel \"Mi\"; set xlabel \"seconds\"; plot \"./logs/mmus.dat\" using 2 title 'mem-used' with lines, \
 \"./logs/mmsh.dat\" using 2 title 'mem-shared' with lines, \
 \"./logs/mmswto.dat\" using 2 title 'swap-total' with lines, \
 \"./logs/mswus.dat\" using 2 title 'swap-used' with lines, \
