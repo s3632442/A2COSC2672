@@ -136,18 +136,18 @@ gnuplot -e "set title \"CPU USAGE\"; set ylabel \"PERCENTAGE\"; set xlabel \"SEC
 plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
 \"./logs/cpusys.dat\" using 2 title 'SYSTEM' with lines, \
 \"./logs/cpufreq.dat\" using 2 title 'cpu-freq (GHZ)' with lines, \
-\"./logs/cpuidl.dat\" using 2 title 'IDLE' with lines; pause -1"
+\"./logs/cpuidl.dat\" using 2 title 'IDLE' with lines; pause -1; set term png size 700,700; set output \"CPUUSAGE.png\"; replot;"
 
 #plot cpu and gpu temp
 gnuplot -e "set title \"GPU TEMP\"; set ylabel \"TEMP DEGREES\"; set xlabel \"SECONDS\"; plot \"./logs/cputemp.dat\" using 2 title 'CPUTEMP' with lines, \
-\"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with lines; pause -1"
+\"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with lines; pause -1; set term png size 700,700; set output \"TEMPS.png\"; replot;"
 
 #memory 1 Gi
 gnuplot -e "set title \"MAIN MEMORY\"; set ylabel \"GB\"; set xlabel \"SECONDS\"; 
 plot \"./logs/mmto.dat\" using 2 title 'mem-total' with lines, \
 \"./logs/mmfr.dat\" using 2 title 'mem-free' with lines, \
 \"./logs/mmca.dat\" using 2 title 'mem-cache' with lines, \
-\"./logs/mmav.dat\" using 2 title 'mem-avail' with lines; pause -1"
+\"./logs/mmav.dat\" using 2 title 'mem-avail' with lines; pause -1; set term png size 700,700; set output \"MAINMEM.png\"; replot;"
 
 #memory 3 Mi
 gnuplot -e "set title \"SWAP MEMORY\"; set ylabel \"MB\"; set xlabel \"SECONDS\"; 
@@ -155,7 +155,7 @@ plot \"./logs/mmus.dat\" using 2 title 'mem-used' with lines, \
 \"./logs/mmsh.dat\" using 2 title 'mem-shared' with lines, \
 \"./logs/mmswto.dat\" using 2 title 'swap-total' with lines, \
 \"./logs/mswus.dat\" using 2 title 'swap-used' with lines, \
-\"./logs/mmswfr.dat\" using 2 title 'swap-free' with lines; pause -1" 
+\"./logs/mmswfr.dat\" using 2 title 'swap-free' with lines; pause -1; set term png size 700,700; set output \"SWAPMEM.png\"; replot;" 
 
 # #memory 1
 # gnuplot -e "plot \"./logs/mstat.dat\" using 2 title 'total' with lines, \
