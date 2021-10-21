@@ -11,6 +11,15 @@ close() {
 
 (( SECINC++ ))
 
+#plots cpu psercentages
+gnuplot -e "plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
+\"./logs/cpusys.dat\" using 2 title 'SYSTEM' with lines, \
+\"./logs/cpuidl.dat\" using 2 title 'IDLE' with lines; pause -1"
+
+#plots cpu and gpu temp
+gnuplot -e "plot \"./logs/cputmp.dat\" using 2 title 'CPUTEMP' with lines, \
+\"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with lines; pause -1"
+
 #inform user
 printf "\n-  -   -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   "
 
@@ -21,13 +30,13 @@ sleep 1
 CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
 
 #save output to logfile
-echo $SECINC "$CPUTEMP" >> ./logs/cputmp.txt
+echo $SECINC "$CPUTEMP" >> ./logs/cputmp.dat
 
 #get gpu temp, format data and save to log
 GPUTMP=$((vcgencmd measure_temp) | cut -c6-9) 
 
 #save output to logfile
-echo $SECINC $GPUTMP >> ./logs/gputemp.txt
+echo $SECINC $GPUTMP >> ./logs/gputemp.dat
 
 #get cpu freq, format data and save to log
 CLOCKHZ=$((vcgencmd measure_clock arm) | cut -c15-25) 
@@ -40,7 +49,7 @@ CLKMHZ=$((CLOCKHZ / MHZDV))
 
 
 #save output to logfile
-echo $SECINC $CLKMHZ >> ./logs/cpufreq.txt
+echo $SECINC $CLKMHZ >> ./logs/cpufreq.dat
 
 #get memory stats, format data and save to log
 MSTAT=$(free -h | cut -c13-80 )
@@ -50,13 +59,23 @@ MSTAT=$(free -h | cut -c13-80 )
 MSTAT=$(echo $MSTAT | sed -e "s/total used free shared buff\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
 #save output to logfile
-echo $SECINC $MSTAT  >> ./logs/mstat.txt
+echo $SECINC $MSTAT  >> ./logs/mstat.dat
 
 #get cpu use, format data and save to log
-CPUU=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3, \$5, \$12}")
+CPUUUSR=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3}")
+
+echo $SECINC $CPUUUSR >> ./logs/cpuusr.dat
+
+CPUSYS=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$5}")
+
+echo $SECINC $CPUSYS >> ./logs/cpusys.dat
+
+CPUIDL=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$12}" | cut -c1-2)
+
+CPUPCT=.$CPUIDL
 
 #save output to logfile
-echo $SECINC $CPUU >> ./logs/cpuu.txt
+echo $SECINC $CPUPCT >> ./logs/cpuidl.dat
     
 #inform user
 printf "\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
@@ -113,6 +132,8 @@ printf "\n-  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -   -   -   
 
 SECINC=0
 
+rm -r ./logs/*
+
 #loop functions to collect metrics every one second
 while true ; do
 
@@ -120,19 +141,19 @@ while true ; do
 (( SECINC++ ))
 
 #delay timer
-sleep 1
+sleep .0000001
 
 #get cpu temp, format data and save to log
 CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
 
 #save output to logfile
-echo $SECINC "$CPUTEMP" >> ./logs/cputmp.txt
+echo $SECINC "$CPUTEMP" >> ./logs/cputmp.dat
 
 #get gpu temp, format data and save to log
 GPUTMP=$((vcgencmd measure_temp) | cut -c6-9) 
 
 #save output to logfile
-echo $SECINC $GPUTMP >> ./logs/gputemp.txt
+echo $SECINC $GPUTMP >> ./logs/gputemp.dat
 
 #get cpu freq, format data and save to log
 CLOCKHZ=$((vcgencmd measure_clock arm) | cut -c15-25) 
@@ -144,7 +165,7 @@ MHZDV=100000000
 CLKMHZ=$((CLOCKHZ / MHZDV)) 
 
 #save output to logfile
-echo $SECINC $CLKMHZ >> ./logs/cpufreq.txt
+echo $SECINC $CLKMHZ >> ./logs/cpufreq.dat
 
 #get memory stats, format data and save to log
 MSTAT=$(free -h | cut -c13-80)
@@ -153,13 +174,23 @@ MSTAT=$(free -h | cut -c13-80)
 MSTAT=$(echo $MSTAT | sed -e "s/total used free shared buff\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
 #save output to logfile
-echo $SECINC $MSTAT  >> ./logs/mstat.txt
+echo $SECINC $MSTAT  >> ./logs/mstat.dat
 
 #get cpu use, format data and save to log
-CPUU=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3, \$5, \$12}")
+CPUUUSR=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3}")
+
+echo $SECINC $CPUUUSR >> ./logs/cpuusr.dat
+
+CPUSYS=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$5}")
+
+echo $SECINC $CPUSYS >> ./logs/cpusys.dat
+
+CPUIDL=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$12}" | cut -c1-2)
+
+CPUPCT=.$CPUIDL
 
 #save output to logfile
-echo $SECINC $CPUU >> ./logs/cpuu.txt
+echo $SECINC $CPUPCT >> ./logs/cpuidl.dat
 
 #loop complete
 done
