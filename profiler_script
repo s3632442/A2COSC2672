@@ -131,26 +131,28 @@ echo $SECINC $CPUPCT >> ./logs/cpuidl.dat
 #inform user
 printf "\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 
+#plot cpu psercentages
+gnuplot -e "plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
+\"./logs/cpusys.dat\" using 2 title 'SYSTEM' with lines, \
+\"./logs/cpuidl.dat\" using 2 title 'IDLE' with lines; pause -1"
+
+#plot cpu and gpu temp
+gnuplot -e "plot \"./logs/cputemp.dat\" using 2 title 'CPUTEMP' with lines, \
+\"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with lines; pause -1"
+
 #memory 1 Gi
 gnuplot -e "plot \"./logs/mmto.dat\" using 2 title 'mem-total' with lines, \
 \"./logs/mmfr.dat\" using 2 title 'mem-free' with lines, \
 \"./logs/mmca.dat\" using 2 title 'mem-cache' with lines, \
+\"./logs/cpufreq.dat\" using 2 title 'cpu-freq' with lines, \
 \"./logs/mmav.dat\" using 2 title 'mem-avail' with lines; pause -1"
 
 #memory 3 Mi
 gnuplot -e "plot \"./logs/mmus.dat\" using 2 title 'mem-used' with lines, \
 \"./logs/mmsh.dat\" using 2 title 'mem-shared' with lines, \
 \"./logs/mmswto.dat\" using 2 title 'swap-total' with lines, \
+\"./logs/mswus.dat\" using 2 title 'swap-used' with lines, \
 \"./logs/mmswfr.dat\" using 2 title 'swap-free' with lines; pause -1" 
-
-# #plot cpu psercentages
-# gnuplot -e "plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
-# \"./logs/cpusys.dat\" using 2 title 'SYSTEM' with lines, \
-# \"./logs/cpuidl.dat\" using 2 title 'IDLE' with lines; pause -1"
-
-# #plot cpu and gpu temp
-# gnuplot -e "plot \"./logs/cputemp.dat\" using 2 title 'CPUTEMP' with lines, \
-# \"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with lines; pause -1"
 
 # #memory 1
 # gnuplot -e "plot \"./logs/mstat.dat\" using 2 title 'total' with lines, \
