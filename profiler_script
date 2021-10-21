@@ -45,12 +45,72 @@ echo $SECINC $CLKMHZ >> ./logs/cpufreq.dat
 #get memory stats, format data and save to log
 MSTAT=$(free -h | cut -c13-80 )
 
-
 #format data
 MSTAT=$(echo $MSTAT | sed -e "s/total used free shared buff\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
+# #save output to logfile
+# echo $SECINC $MSTAT  >> ./logs/mstat.dat
+
+MMTO=$(echo $MSTAT | awk "{ print \$1}" )
+
 #save output to logfile
-echo $SECINC $MSTAT  >> ./logs/mstat.dat
+echo $SECINC $MMTO  >> ./logs/mmto.dat
+
+MMUS=$(echo $MSTAT | awk "{ print \$2}" )
+
+#save output to logfile
+echo $SECINC $MMUS  >> ./logs/mmus.dat
+
+MMFR=$(echo $MSTAT | awk "{ print \$3}" )
+
+#save output to logfile
+echo $SECINC $MMFR  >> ./logs/mmfr.dat
+
+MMSH=$(echo $MSTAT | awk "{ print \$4}" )
+
+#save output to logfile
+echo $SECINC $MMSH  >> ./logs/mmsh.dat
+
+MMCA=$(echo $MSTAT | awk "{ print \$5}" )
+
+#save output to logfile
+echo $SECINC $MMCA  >> ./logs/mmca.dat
+
+MMAV=$(echo $MSTAT | awk "{ print \$6}" )
+
+#save output to logfile
+echo $SECINC $MMAV  >> ./logs/mmav.dat
+
+MSWTO=$(echo $MSTAT | awk "{ print \$7}" )
+
+#save output to logfile
+echo $SECINC $MSWTO  >> ./logs/mmswto.dat
+
+MSWUS=$(echo $MSTAT | awk "{ print \$8}" )
+
+#save output to logfile
+echo $SECINC $MSWUS  >> ./logs/mswus.dat
+
+MSWFR=$(echo $MSTAT | awk "{ print \$9}" )
+
+#save output to logfile
+echo $SECINC $MSWFR  >> ./logs/mmswfr.dat
+
+#get cpu use, format data and save to log
+CPUUUSR=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3}")
+
+echo $SECINC $CPUUUSR >> ./logs/cpuusr.dat
+
+CPUSYS=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$5}")
+
+echo $SECINC $CPUSYS >> ./logs/cpusys.dat
+
+CPUIDL=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$12}" | cut -c1-2)
+
+CPUPCT=.$CPUIDL
+
+#save output to logfile
+echo $SECINC $CPUPCT >> ./logs/cpuidl.dat
 
 #get cpu use, format data and save to log
 CPUUUSR=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3}")
@@ -71,30 +131,41 @@ echo $SECINC $CPUPCT >> ./logs/cpuidl.dat
 #inform user
 printf "\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 
+#memory 1 Gi
+gnuplot -e "plot \"./logs/mmto.dat\" using 2 title 'mem-total' with lines, \
+\"./logs/mmfr.dat\" using 2 title 'mem-free' with lines, \
+\"./logs/mmca.dat\" using 2 title 'mem-cache' with lines, \
+\"./logs/mmav.dat\" using 2 title 'mem-avail' with lines; pause -1"
 
-#plot cpu psercentages
-gnuplot -e "plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
-\"./logs/cpusys.dat\" using 2 title 'SYSTEM' with lines, \
-\"./logs/cpuidl.dat\" using 2 title 'IDLE' with lines; pause -1"
+#memory 3 Mi
+gnuplot -e "plot \"./logs/mmus.dat\" using 2 title 'mem-used' with lines, \
+\"./logs/mmsh.dat\" using 2 title 'mem-shared' with lines, \
+\"./logs/mmswto.dat\" using 2 title 'swap-total' with lines, \
+\"./logs/mmswfr.dat\" using 2 title 'swap-free' with lines; pause -1" 
 
-#plot cpu and gpu temp
-gnuplot -e "plot \"./logs/cputemp.dat\" using 2 title 'CPUTEMP' with lines, \
-\"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with lines; pause -1"
+# #plot cpu psercentages
+# gnuplot -e "plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
+# \"./logs/cpusys.dat\" using 2 title 'SYSTEM' with lines, \
+# \"./logs/cpuidl.dat\" using 2 title 'IDLE' with lines; pause -1"
 
-#memory 1
-gnuplot -e "plot \"./logs/mstat.dat\" using 2 title 'total' with lines, \
-\"./logs/mstat.dat\" using 4 title 'free' with lines, \
-\"./logs/mstat.dat\" using 7 title 'available' with lines, \
-\"./logs/mstat.dat\" using 9 title 'used' with lines; pause -1"
+# #plot cpu and gpu temp
+# gnuplot -e "plot \"./logs/cputemp.dat\" using 2 title 'CPUTEMP' with lines, \
+# \"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with lines; pause -1"
 
-#memory 2
-gnuplot -e "plot \"./logs/mstat.dat\" using 3 title 'used' with lines, \
-\"./logs/mstat.dat\" using 6 title 'cached' with lines, pause -1"
+# #memory 1
+# gnuplot -e "plot \"./logs/mstat.dat\" using 2 title 'total' with lines, \
+# \"./logs/mstat.dat\" using 4 title 'free' with lines, \
+# \"./logs/mstat.dat\" using 7 title 'available' with lines, \
+# \"./logs/mstat.dat\" using 9 title 'used' with lines; pause -1"
 
-#memory 3
-gnuplot -e "plot \"./logs/mstat.dat\" using 5 title 'mem-shared' with lines, \
-\"./logs/mstat.dat\" using 8 title 'swap-shared' with lines, \
-\"./logs/mstat.dat\" using 10 title 'swap-free' with lines, pause -1"
+# #memory 2
+# gnuplot -e "plot \"./logs/mstat.dat\" using 3 title 'used' with lines, \
+# \"./logs/mstat.dat\" using 6 title 'cached' with lines, pause -1"
+
+# #memory 3
+# gnuplot -e "plot \"./logs/mstat.dat\" using 5 title 'mem-shared' with lines, \
+# \"./logs/mstat.dat\" using 8 title 'swap-shared' with lines, \
+# \"./logs/mstat.dat\" using 10 title 'swap-free' with lines, pause -1"
 
 #delay to make sequence change obvious    
 sleep 1
@@ -189,8 +260,53 @@ MSTAT=$(free -h | cut -c13-80)
 #format data
 MSTAT=$(echo $MSTAT | sed -e "s/total used free shared buff\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
+# #save output to logfile
+# echo $SECINC $MSTAT  >> ./logs/mstat.dat
+
+MMTO=$(echo $MSTAT | awk "{ print \$1}" )
+
 #save output to logfile
-echo $SECINC $MSTAT  >> ./logs/mstat.dat
+echo $SECINC $MMTO  >> ./logs/mmto.dat
+
+MMUS=$(echo $MSTAT | awk "{ print \$2}" )
+
+#save output to logfile
+echo $SECINC $MMUS  >> ./logs/mmus.dat
+
+MMFR=$(echo $MSTAT | awk "{ print \$3}" )
+
+#save output to logfile
+echo $SECINC $MMFR  >> ./logs/mmfr.dat
+
+MMSH=$(echo $MSTAT | awk "{ print \$4}" )
+
+#save output to logfile
+echo $SECINC $MMSH  >> ./logs/mmsh.dat
+
+MMCA=$(echo $MSTAT | awk "{ print \$5}" )
+
+#save output to logfile
+echo $SECINC $MMCA  >> ./logs/mmca.dat
+
+MMAV=$(echo $MSTAT | awk "{ print \$6}" )
+
+#save output to logfile
+echo $SECINC $MMAV  >> ./logs/mmav.dat
+
+MSWTO=$(echo $MSTAT | awk "{ print \$7}" )
+
+#save output to logfile
+echo $SECINC $MSWTO  >> ./logs/mmswto.dat
+
+MSWUS=$(echo $MSTAT | awk "{ print \$8}" )
+
+#save output to logfile
+echo $SECINC $MSWUS  >> ./logs/mswus.dat
+
+MSWFR=$(echo $MSTAT | awk "{ print \$9}" )
+
+#save output to logfile
+echo $SECINC $MSWFR  >> ./logs/mmswfr.dat
 
 #get cpu use, format data and save to log
 CPUUUSR=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3}")
