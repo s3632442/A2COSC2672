@@ -11,15 +11,6 @@ close() {
 
 (( SECINC++ ))
 
-#plots cpu psercentages
-gnuplot -e "plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
-\"./logs/cpusys.dat\" using 2 title 'SYSTEM' with lines, \
-\"./logs/cpuidl.dat\" using 2 title 'IDLE' with lines; pause -1"
-
-#plots cpu and gpu temp
-gnuplot -e "plot \"./logs/cputmp.dat\" using 2 title 'CPUTEMP' with lines, \
-\"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with lines; pause -1"
-
 #inform user
 printf "\n-  -   -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   "
 
@@ -30,7 +21,7 @@ sleep 1
 CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
 
 #save output to logfile
-echo $SECINC "$CPUTEMP" >> ./logs/cputmp.dat
+echo $SECINC "$CPUTEMP" >> ./logs/cputemp.dat
 
 #get gpu temp, format data and save to log
 GPUTMP=$((vcgencmd measure_temp) | cut -c6-9) 
@@ -79,6 +70,31 @@ echo $SECINC $CPUPCT >> ./logs/cpuidl.dat
     
 #inform user
 printf "\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
+
+
+#plot cpu psercentages
+gnuplot -e "plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
+\"./logs/cpusys.dat\" using 2 title 'SYSTEM' with lines, \
+\"./logs/cpuidl.dat\" using 2 title 'IDLE' with lines; pause -1"
+
+#plot cpu and gpu temp
+gnuplot -e "plot \"./logs/cputemp.dat\" using 2 title 'CPUTEMP' with lines, \
+\"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with lines; pause -1"
+
+#memory 1
+gnuplot -e "plot \"./logs/mstat.dat\" using 2 title 'total' with lines, \
+\"./logs/mstat.dat\" using 4 title 'free' with lines, \
+\"./logs/mstat.dat\" using 7 title 'available' with lines, \
+\"./logs/mstat.dat\" using 9 title 'used' with lines; pause -1"
+
+#memory 2
+gnuplot -e "plot \"./logs/mstat.dat\" using 3 title 'used' with lines, \
+\"./logs/mstat.dat\" using 6 title 'cached' with lines, pause -1"
+
+#memory 3
+gnuplot -e "plot \"./logs/mstat.dat\" using 5 title 'mem-shared' with lines, \
+\"./logs/mstat.dat\" using 8 title 'swap-shared' with lines, \
+\"./logs/mstat.dat\" using 10 title 'swap-free' with lines, pause -1"
 
 #delay to make sequence change obvious    
 sleep 1
@@ -141,13 +157,13 @@ while true ; do
 (( SECINC++ ))
 
 #delay timer
-sleep .0000001
+sleep 1
 
 #get cpu temp, format data and save to log
 CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
 
 #save output to logfile
-echo $SECINC "$CPUTEMP" >> ./logs/cputmp.dat
+echo $SECINC "$CPUTEMP" >> ./logs/cputemp.dat
 
 #get gpu temp, format data and save to log
 GPUTMP=$((vcgencmd measure_temp) | cut -c6-9) 
