@@ -47,9 +47,6 @@ MSTATSTR=$(free -h | cut -c13-80)
 #format data
 MSTAT=$(echo $MSTATSTR | sed -e "s/total used free shared buff\\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
-# #save output to logfile
-# echo "$SECINC" $MSTAT  >> ./logs/mstat.dat
-
 MMTO=$(echo "$MSTAT" | awk "{ print \$1}" )
 
 #save output to logfile
@@ -140,21 +137,6 @@ plot \"./logs/mmus.dat\" using 2 title 'mem-used' with lines, \
 \"./logs/mswus.dat\" using 2 title 'swap-used' with lines, \
 \"./logs/mmswfr.dat\" using 2 title 'swap-free' with lines; pause -1; set term png size 700,700; set output \"SWAPMEM.png\"; replot;" 
 
-# #memory 1
-# gnuplot -e "plot \"./logs/mstat.dat\" using 2 title 'total' with lines, \
-# \"./logs/mstat.dat\" using 4 title 'free' with lines, \
-# \"./logs/mstat.dat\" using 7 title 'available' with lines, \
-# \"./logs/mstat.dat\" using 9 title 'used' with lines; pause -1"
-
-# #memory 2
-# gnuplot -e "plot \"./logs/mstat.dat\" using 3 title 'used' with lines, \
-# \"./logs/mstat.dat\" using 6 title 'cached' with lines, pause -1"
-
-# #memory 3
-# gnuplot -e "plot \"./logs/mstat.dat\" using 5 title 'mem-shared' with lines, \
-# \"./logs/mstat.dat\" using 8 title 'swap-shared' with lines, \
-# \"./logs/mstat.dat\" using 10 title 'swap-free' with lines, pause -1"
-
 #delay to make sequence change obvious    
 sleep 1
 
@@ -244,9 +226,6 @@ MSTATSTR=$(free -h | cut -c13-80)
 
 #format data
 MSTAT=$(echo $MSTATSTR | sed -e "s/total used free shared buff\\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
-
-# #save output to logfile
-# echo "$SECINC" $MSTAT  >> ./logs/mstat.dat
 
 MMTO=$(echo "$MSTAT" | awk "{ print \$1}" )
 
