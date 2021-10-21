@@ -1,0 +1,20 @@
+#!/bin/bash
+
+inc=10
+hrs=echo $(date | cut -c12-13)
+min=echo $(date | cut -c15-16)
+sec=echo $(date | cut -c18-19)
+
+echo $hrs
+echo $min
+echo $sec
+
+while  17 -gt echo $hrs  ; do
+
+newmin=`echo "$min + $inc" | bc`
+
+hrs=echo $(date | cut -c12-13)
+
+echo $newmin
+
+done

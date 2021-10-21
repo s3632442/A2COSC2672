@@ -9,6 +9,8 @@ trap close USR1
 #define close sequence
 close() { 
 
+(( LOGTIME++ ))
+
 #inform user
 printf "\n-  -   -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   "
 
@@ -51,7 +53,7 @@ MSTAT=$(echo $MSTAT | sed -e "s/total used free shared buff\/cache available //g
 echo $LOGTIME $MSTAT  >> ./logs/mstat.txt
 
 #get cpu use, format data and save to log
-CPUU=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3, \$4, \$5, \$6, \$7, \$8, \$9, \$10, \$11, \$12}")
+CPUU=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3, \$5, \$12}")
 
 #save output to logfile
 echo $LOGTIME $CPUU >> ./logs/cpuu.txt
@@ -109,11 +111,14 @@ fi
 #inform user
 printf "\n-  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -   -   -   -   -"
 
+LOGTIME=0
+
 #loop functions to collect metrics every one second
 while true ; do
 
 #set log time
-LOGTIME=$(date | cut -c12-19)
+#LOGTIME=$(date | cut -c12-19)
+(( LOGTIME++ ))
 
 #delay timer
 sleep 1
@@ -152,7 +157,7 @@ MSTAT=$(echo $MSTAT | sed -e "s/total used free shared buff\/cache available //g
 echo $LOGTIME $MSTAT  >> ./logs/mstat.txt
 
 #get cpu use, format data and save to log
-CPUU=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3, \$4, \$5, \$6, \$7, \$8, \$9, \$10, \$11, \$12}")
+CPUU=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3, \$5, \$12}")
 
 #save output to logfile
 echo $LOGTIME $CPUU >> ./logs/cpuu.txt
