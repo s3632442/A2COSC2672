@@ -9,7 +9,7 @@ trap close USR1
 #define close sequence
 close() { 
 
-(( LOGTIME++ ))
+(( SECINC++ ))
 
 #inform user
 printf "\n-  -   -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   "
@@ -21,13 +21,13 @@ sleep 1
 CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
 
 #save output to logfile
-echo $LOGTIME "$CPUTEMP" >> ./logs/cputmp.txt
+echo $SECINC "$CPUTEMP" >> ./logs/cputmp.txt
 
 #get gpu temp, format data and save to log
 GPUTMP=$((vcgencmd measure_temp) | cut -c6-9) 
 
 #save output to logfile
-echo $LOGTIME $GPUTMP >> ./logs/gputemp.txt
+echo $SECINC $GPUTMP >> ./logs/gputemp.txt
 
 #get cpu freq, format data and save to log
 CLOCKHZ=$((vcgencmd measure_clock arm) | cut -c15-25) 
@@ -40,7 +40,7 @@ CLKMHZ=$((CLOCKHZ / MHZDV))
 
 
 #save output to logfile
-echo $LOGTIME $CLKMHZ >> ./logs/cpufreq.txt
+echo $SECINC $CLKMHZ >> ./logs/cpufreq.txt
 
 #get memory stats, format data and save to log
 MSTAT=$(free -h | cut -c13-80 )
@@ -50,13 +50,13 @@ MSTAT=$(free -h | cut -c13-80 )
 MSTAT=$(echo $MSTAT | sed -e "s/total used free shared buff\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
 #save output to logfile
-echo $LOGTIME $MSTAT  >> ./logs/mstat.txt
+echo $SECINC $MSTAT  >> ./logs/mstat.txt
 
 #get cpu use, format data and save to log
 CPUU=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3, \$5, \$12}")
 
 #save output to logfile
-echo $LOGTIME $CPUU >> ./logs/cpuu.txt
+echo $SECINC $CPUU >> ./logs/cpuu.txt
     
 #inform user
 printf "\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
@@ -111,14 +111,13 @@ fi
 #inform user
 printf "\n-  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -   -   -   -   -"
 
-LOGTIME=0
+SECINC=0
 
 #loop functions to collect metrics every one second
 while true ; do
 
-#set log time
-#LOGTIME=$(date | cut -c12-19)
-(( LOGTIME++ ))
+#increment seconds
+(( SECINC++ ))
 
 #delay timer
 sleep 1
@@ -127,13 +126,13 @@ sleep 1
 CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
 
 #save output to logfile
-echo $LOGTIME "$CPUTEMP" >> ./logs/cputmp.txt
+echo $SECINC "$CPUTEMP" >> ./logs/cputmp.txt
 
 #get gpu temp, format data and save to log
 GPUTMP=$((vcgencmd measure_temp) | cut -c6-9) 
 
 #save output to logfile
-echo $LOGTIME $GPUTMP >> ./logs/gputemp.txt
+echo $SECINC $GPUTMP >> ./logs/gputemp.txt
 
 #get cpu freq, format data and save to log
 CLOCKHZ=$((vcgencmd measure_clock arm) | cut -c15-25) 
@@ -145,7 +144,7 @@ MHZDV=100000000
 CLKMHZ=$((CLOCKHZ / MHZDV)) 
 
 #save output to logfile
-echo $LOGTIME $CLKMHZ >> ./logs/cpufreq.txt
+echo $SECINC $CLKMHZ >> ./logs/cpufreq.txt
 
 #get memory stats, format data and save to log
 MSTAT=$(free -h | cut -c13-80)
@@ -154,13 +153,13 @@ MSTAT=$(free -h | cut -c13-80)
 MSTAT=$(echo $MSTAT | sed -e "s/total used free shared buff\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
 #save output to logfile
-echo $LOGTIME $MSTAT  >> ./logs/mstat.txt
+echo $SECINC $MSTAT  >> ./logs/mstat.txt
 
 #get cpu use, format data and save to log
 CPUU=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3, \$5, \$12}")
 
 #save output to logfile
-echo $LOGTIME $CPUU >> ./logs/cpuu.txt
+echo $SECINC $CPUU >> ./logs/cpuu.txt
 
 #loop complete
 done
