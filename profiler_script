@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #inform user 
-printf "\\nTo exit at any time type \"kill -USR1 $$\""
+printf "\\nTo exit at any time type \"kill -USR1 %s\"" $$
 
 #trap signal, call close sequence
 trap close USR1
