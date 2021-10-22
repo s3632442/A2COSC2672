@@ -39,68 +39,76 @@ CLKMHZ=$((CLOCKHZ / MHZDV))
 #save output to logfile
 echo "$SECINC" "$CLKMHZ" >> ./logs/cpufreq.dat
 
-# #get memory stats, format data and save to log
-# MSTATSTR=$(free -h | cut -c13-80)
-
-# #format data
-# MSTAT=$(echo $MSTATSTR | sed -e "s/total used free shared buff\\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
-
+#retrieve data, extract desired elements, format and assign to variable
 MMTOE=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$1}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MMTO"  >> ./logs/mmto.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MMUS=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$2}" | cut -c 1-2 )
 
 #save output to logfile
 echo "$SECINC" "$MMUS"  >> ./logs/mmus.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MMFR=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$3}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MMFR"  >> ./logs/mmfr.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MMSH=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$4}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MMSH"  >> ./logs/mmsh.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MMCA=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$5}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MMCA"  >> ./logs/mmca.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MMAV=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$6}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MMAV"  >> ./logs/mmav.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MSWTO=$( free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$1}" | cut -c 1-2 )
 
 #save output to logfile
 echo "$SECINC" "$MSWTO"  >> ./logs/mmswto.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MSWUS=$( free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$2}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MSWUS"  >> ./logs/mswus.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MSWFR=$( free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$3}" | cut -c 1-2 )
 
 #save output to logfile
 echo "$SECINC" "$MSWFR"  >> ./logs/mmswfr.dat
 
-#get cpu use, format data and save to log
+#retrieve data, extract desired elements, format and assign to variable
 CPUUUSR=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3}")
 
+#save output to logfile
 echo "$SECINC" "$CPUUUSR" >> ./logs/cpuusr.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 CPUSYS=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$5}")
 
+#save output to logfile
 echo "$SECINC" "$CPUSYS" >> ./logs/cpusys.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 CPUIDL=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$12}" | cut -c1-2)
 
+#add decimal place 
 CPUPCT=.$CPUIDL
 
 #save output to logfile
@@ -201,9 +209,6 @@ rm -r ./logs/*
 #loop functions to collect metrics every one second
 while true ; do
 
-#delay timer
-sleep 1
-
 #get cpu temp, format data and save to log
 CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
 
@@ -228,77 +233,82 @@ CLKMHZ=$((CLOCKHZ / MHZDV))
 #save output to logfile
 echo "$SECINC" "$CLKMHZ" >> ./logs/cpufreq.dat
 
-# #get memory stats, format data and save to log
-# MSTATSTR=$(free -h | cut -c13-80)
-
-# #format data
-# MSTAT=$(echo $MSTATSTR | sed -e "s/total used free shared buff\\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
-
 MMTO=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$1}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MMTO"  >> ./logs/mmto.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MMUS=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$2}" | cut -c 1-2 )
 
 #save output to logfile
 echo "$SECINC" "$MMUS"  >> ./logs/mmus.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MMFR=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$3}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MMFR"  >> ./logs/mmfr.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MMSH=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$4}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MMSH"  >> ./logs/mmsh.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MMCA=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$5}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MMCA"  >> ./logs/mmca.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MMAV=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$6}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MMAV"  >> ./logs/mmav.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MSWTO=$( free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$1}" | cut -c 1-2 )
 
 #save output to logfile
 echo "$SECINC" "$MSWTO"  >> ./logs/mmswto.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MSWUS=$( free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$2}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MSWUS"  >> ./logs/mswus.dat
 
+#retrieve data, extract desired elements, format and assign to variable
 MSWFR=$( free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$3}" | cut -c 1-2 )
 
 #save output to logfile
 echo "$SECINC" "$MSWFR"  >> ./logs/mmswfr.dat
 
-#get cpu use, format data and save to log
+#retrieve data, extract desired elements, format and assign to variable
 CPUUUSR=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3}")
 
 #save to logfile
 echo "$SECINC" "$CPUUUSR" >> ./logs/cpuusr.dat
 
-#format variable
+#retrieve data, extract desired elements, format and assign to variable
 CPUSYS=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$5}")
 
 #save output to logfile
 echo "$SECINC" "$CPUSYS" >> ./logs/cpusys.dat
 
-#format variable
+#retrieve data, extract desired elements, format and assign to variable
 CPUIDL=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$12}" | cut -c1-2)
 
-#format variable
+#add decimal place 
 CPUPCT=.$CPUIDL
 
 #save output to logfile
 echo "$SECINC" "$CPUPCT" >> ./logs/cpuidl.dat
+
+#delay timer
+sleep 1
 
 #increment seconds
 (( SECINC++ ))

@@ -1,0 +1,353 @@
+commit a570a4f83733f81442b52141651c8ea32a3efa3c
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 13:42:20 2021 +1100
+
+    some more user info
+
+commit a7555cf2e313c1f80de699865a6ee2a7f04a0449
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 13:40:57 2021 +1100
+
+    some more user info
+
+commit d40eddb9a0987d543cdc2bccdea38050bdd3cf4c
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 12:20:10 2021 +1100
+
+    uh I think thats nearly awrap
+
+commit 6648ec47b5907b042749cccecd0012829b1818dc
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 10:41:47 2021 +1100
+
+    fixed double quote issue
+
+commit 3093ffa8f1680d79838b2946593dda14b68a3981
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 07:16:27 2021 +1100
+
+    removed commented out code
+
+commit 3979aa5ff7457e3e3a65f7148b1df6a6a16754d4
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 06:30:30 2021 +1100
+
+    consistent plotting
+
+commit 652ca28593349749d46eee3b1b512f3ed5f7a014
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 06:07:25 2021 +1100
+
+    output to png
+
+commit 89ec10b5a40684c1bb7387084f4376b0b5e7035f
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 05:25:05 2021 +1100
+
+    only two errors persist
+
+commit 7b3ddf8f1741072f2c73c601b3552bdcc188d73c
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 04:45:43 2021 +1100
+
+    eliminating shellcheck errors
+
+commit 8ed43e3ec4200d321a051a216d404358534618ae
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 02:17:16 2021 +1100
+
+    x and y set
+
+commit 74bd7691051eeb5361796de7535b84ddfec90312
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 01:52:10 2021 +1100
+
+    title added to graph
+
+commit fd0067197076498aa1e9743f063222aabf524a00
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 01:08:28 2021 +1100
+
+    graphs working
+
+commit 84b7dc0242ed265f65a848493effa4209b789857
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 22 00:54:19 2021 +1100
+
+    separate logs
+
+commit f2083925d7303949ff39c2f3a022aea07e2c9d83
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 23:47:02 2021 +1100
+
+    graphs getting better
+
+commit 2b27cdc245ff5d12e3019ce69dd232570ce6a42a
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 23:03:11 2021 +1100
+
+    plotting to gnuplot
+
+commit d3843252a444ff59927a22a27b1fcf44360da68c
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 17:59:45 2021 +1100
+
+    changed time inc
+
+commit e03800a4f5209419ec771b86a73dd02f19db05fc
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 17:12:49 2021 +1100
+
+    fixing metrics for display
+
+commit a1326d94d9a1fc05e0aa6fdd53475c141362728e
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 14:06:43 2021 +1100
+
+    date added to logs
+
+commit 638285fa41193513236167f15bbece3ed00cea2f
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 11:25:10 2021 +1100
+
+    organised better
+
+commit bd7e3920c76e46ecfe13350c204d6c6b764436e5
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 10:19:45 2021 +1100
+
+    adding printf next dont forget error handling
+
+commit a94028b6662ce1c87051d486967034a3a2ec4790
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 10:04:07 2021 +1100
+
+    upgrades to final profiler
+
+commit 08ab8cdf6c5d961fdc4c65da5a217b8c90efa496
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 08:43:25 2021 +1100
+
+    exit sequence set
+
+commit 68349ff43c87a85e727c172375966ca668a9e55a
+Merge: 5203d3d 9c01ede
+Author: Tom <36986927+s3632442@users.noreply.github.com>
+Date:   Wed Nov 10 10:09:45 2021 +1100
+
+    Merge pull request #2 from s3632442/1-1
+    
+    consolidating
+
+commit 5203d3dc78b4d071b2351b2c2475a4affce7159c
+Merge: 7fcf015 3df9e34
+Author: Tom <36986927+s3632442@users.noreply.github.com>
+Date:   Wed Nov 10 09:56:17 2021 +1100
+
+    Merge pull request #1 from s3632442/diy
+    
+    Diy
+
+commit 9c01ede75a7246d3144ef9897212cd6522b21485
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 06:06:50 2021 +1100
+
+    tidy up cpuuse
+
+commit 18b9ef429478828e681bedb1f6f15009860391e9
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 05:42:37 2021 +1100
+
+    raw metrics
+
+commit 22283878e7a1a2bc2de6a40b06bad529d3c2ec5a
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 05:40:09 2021 +1100
+
+    raw metrics
+
+commit 16f635970aacf0a9e3de43da662b5e45b9329827
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 21 03:46:27 2021 +1100
+
+    awk cpuuse
+
+commit 46332a712aa324d80eb230b55b02f5ed1dd296b8
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Wed Oct 20 21:43:41 2021 +1100
+
+    format cpuuse
+
+commit 6cb9c0324b2eaa734321991b9cbba9eeb27bef5b
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Wed Oct 20 21:08:14 2021 +1100
+
+    formatting free
+
+commit e8251c661a65d196659fa4ebca5e643077fd33a6
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Wed Oct 20 18:24:58 2021 +1100
+
+    all writing to txt
+
+commit f9fc88358dbceaaf9918b1cd8c395f7494d1107a
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Wed Oct 20 17:30:36 2021 +1100
+
+    writing to file
+
+commit 660f9843f0f542ab38eb60a7353ac8440249af72
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Wed Oct 20 16:56:02 2021 +1100
+
+    cpu frequency added
+
+commit 7620b9284f527ab2420973b57797586498f392e2
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Tue Oct 19 16:51:45 2021 +1100
+
+    profiler update
+
+commit 1222fd753bc4a56fad26ac9333bcf7915c924ebb
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Tue Oct 19 16:50:00 2021 +1100
+
+    cputemp adjustments
+
+commit 221550323a99993706f56a8faaaa110c9bcb8abf
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Tue Oct 19 16:32:41 2021 +1100
+
+    profiler upgrades
+
+commit bf9a090052f2267e921273e003518ff8698af429
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Tue Oct 19 16:32:13 2021 +1100
+
+    profiler upgrades
+
+commit b625eabf641f9f00feeac683f074f73bbcc2261b
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Tue Oct 19 16:27:53 2021 +1100
+
+    cpuusage working
+
+commit 962338019a4c667240418d8edf7ff088e9c5e4b4
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Tue Oct 19 16:24:58 2021 +1100
+
+    memstats working
+
+commit 6bc7c1fe9beb127eb9e3138905820a0ebfa055ca
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Tue Oct 19 16:22:34 2021 +1100
+
+    cleaned up dir structure
+
+commit 420f3600864cb90cdd7b7361f0e8893d51759b04
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Tue Oct 19 16:19:44 2021 +1100
+
+    cpu temp working
+
+commit 81ee2d112830930b877837d435849c8d63a494b5
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Tue Oct 19 16:17:50 2021 +1100
+
+    cpu freq working
+
+commit 281ca62ab157e87cdeadc3bf38fae625816e8fb8
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Tue Oct 19 16:15:08 2021 +1100
+
+    checkinstall works
+
+commit 583a832b51ca1a62d0209bee304c4d8aaddafc03
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Tue Oct 19 15:37:33 2021 +1100
+
+    gpu freq
+
+commit 285a8cc2fa6e32d4f9b454adbb9ce2083230bef9
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Tue Oct 19 08:12:33 2021 +1100
+
+    baic awk
+
+commit 236874f3c395a7ac2afe987f53561646c555d2cf
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 17 06:40:04 2021 +1100
+
+    gitignore added
+
+commit d1ac72fa68bad800bf3a0b38050d04b6c0467e88
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 17 06:29:14 2021 +1100
+
+    copyscript made better
+
+commit 9291b099a01683e677534e1665e08e22d3aedc80
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Sat Oct 16 14:47:07 2021 +1100
+
+    work around for task 2
+
+commit 9a4e3f689a2054b661f41ec2de42307a586fd1c7
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Sat Oct 16 14:17:44 2021 +1100
+
+    othe exerscise added forscript
+
+commit ceb8c641ec02e9c15bf01e8fad5d2038d8de46e0
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Sat Oct 16 13:03:18 2021 +1100
+
+    Q1, 3, 4
+
+commit 3df9e34eb39aefa312cb4586a776572c25b3ef95
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Sat Oct 16 06:44:33 2021 +1100
+
+    fires exerscise
+
+commit 33ed1efde6d0c92b79610037640ddef6cc495233
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Sat Oct 16 03:36:49 2021 +1100
+
+    test1-1
+
+commit c03bfe8e0990847f95a0f1a8bb163f0843af46c3
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Sat Oct 16 01:15:08 2021 +1100
+
+    peicing things together
+
+commit 87a4c329c33a205b7f4bf327666995f6bbf96502
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 15 06:53:38 2021 +1100
+
+    bit more set up
+
+commit 7fcf0152c3c6cbbf38880433fdb4b97f36906cee
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 15 06:04:24 2021 +1100
+
+    multi
+
+commit cf09658320216190f361570b2db99f3e0de70b55
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 15 04:58:00 2021 +1100
+
+    go opt
+
+commit 7506d3a4f2bef750d66a607d3f33c420a5bdf13c
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Fri Oct 15 04:41:46 2021 +1100
+
+    some more scripting
+
+commit 2f3edd7c0ae8e8aff914607727f2d5224a28c08a
+Author: s3632442 <s3632442@student.rmit.edu.au>
+Date:   Thu Oct 14 21:19:01 2021 +1100
+
+    helloworld-bash
