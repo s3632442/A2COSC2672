@@ -9,8 +9,6 @@ trap close USR1
 #define close sequence
 close() { 
 
-(( SECINC++ ))
-
 #inform user
 printf "\\n-  -   -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   "
 
@@ -47,7 +45,7 @@ echo "$SECINC" "$CLKMHZ" >> ./logs/cpufreq.dat
 # #format data
 # MSTAT=$(echo $MSTATSTR | sed -e "s/total used free shared buff\\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
-MMTO=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$1}" | cut -c 1-3 )
+MMTOE=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$1}" | cut -c 1-3 )
 
 #save output to logfile
 echo "$SECINC" "$MMTO"  >> ./logs/mmto.dat
@@ -111,7 +109,8 @@ echo "$SECINC" "$CPUPCT" >> ./logs/cpuidl.dat
 #inform user
 printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 
-#plot cpu psercentages
+#psercentages to graph display and save to png
+#plot cpu
 gnuplot -e "set title \"CPU USAGE\"; set ylabel \"PERCENTAGE\"; set xlabel \"SECONDS\"; 
 plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
 \"./logs/cpusys.dat\" using 2 title 'SYSTEM' with lines, \
@@ -122,15 +121,15 @@ plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
 gnuplot -e "set title \"GPU TEMP\"; set ylabel \"TEMP DEGREES\"; set xlabel \"SECONDS\"; plot \"./logs/cputemp.dat\" using 2 title 'CPUTEMP' with lines, \
 \"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with lines; pause -1; set term png size 700,700; set output \"./graph_images/TEMPS.png\"; replot;"
 
-#memory 1 Gi
-gnuplot -e "set title \"MAIN MEMORY\"; set ylabel \"GB\"; set xlabel \"SECONDS\"; 
+#plot memory in Gi
+gnuplot -e "set title \"MAIN MEMORY\"; set ylabel \"Gi\"; set xlabel \"SECONDS\"; 
 plot \"./logs/mmto.dat\" using 2 title 'mem-total' with lines, \
 \"./logs/mmfr.dat\" using 2 title 'mem-free' with lines, \
 \"./logs/mmca.dat\" using 2 title 'mem-cache' with lines, \
 \"./logs/mmav.dat\" using 2 title 'mem-avail' with lines; pause -1; set term png size 700,700; set output \"./graph_images/MAINMEM.png\"; replot;"
 
-#memory 3 Mi
-gnuplot -e "set title \"SWAP MEMORY\"; set ylabel \"MB\"; set xlabel \"SECONDS\"; 
+#plot memory in Mi
+gnuplot -e "set title \"SWAP MEMORY\"; set ylabel \"Mi\"; set xlabel \"SECONDS\"; 
 plot \"./logs/mmus.dat\" using 2 title 'mem-used' with lines, \
 \"./logs/mmsh.dat\" using 2 title 'mem-shared' with lines, \
 \"./logs/mmswto.dat\" using 2 title 'swap-total' with lines, \
@@ -141,7 +140,9 @@ plot \"./logs/mmus.dat\" using 2 title 'mem-used' with lines, \
 sleep 1
 
 #inform user
+printf "\\n-  -  -   -   -  - LOG @ ./logs/ , IMG @ ./images/ - -   -   -   -   -   -   "
 printf "\\n-  -  -   -   -   -   -  - PROFILER CLOSED - -   -   -   -   -   -   -   -   "
+printf "\\n-  -  -   -   -   -   - - ENTER TO CONSOLE - -   -   -   -   -    -   -   -   "
 
 #exit and set code
 exit 0
@@ -185,10 +186,16 @@ printf    "\\ninstalled"
 fi
 
 #inform user
-printf "\\n-  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -   -   -   -   -"
+printf "\\n-  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -  -   -   -  -"
+printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -  -"
+printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  -  -  -" $$
+printf  "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -   -"
 
+
+#initiate increment
 SECINC=0
 
+#clear old logs
 rm -r ./logs/*
 
 #loop functions to collect metrics every one second
@@ -275,14 +282,19 @@ echo "$SECINC" "$MSWFR"  >> ./logs/mmswfr.dat
 #get cpu use, format data and save to log
 CPUUUSR=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3}")
 
+#save to logfile
 echo "$SECINC" "$CPUUUSR" >> ./logs/cpuusr.dat
 
+#format variable
 CPUSYS=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$5}")
 
+#save output to logfile
 echo "$SECINC" "$CPUSYS" >> ./logs/cpusys.dat
 
+#format variable
 CPUIDL=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$12}" | cut -c1-2)
 
+#format variable
 CPUPCT=.$CPUIDL
 
 #save output to logfile
