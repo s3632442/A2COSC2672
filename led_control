@@ -1,27 +1,47 @@
 #!/bin/bash
 
+#turns off led trigger
 sudo sh -c "echo none >/sys/class/leds/led0/trigger"
 
+#save pid of current process to output to logfile
+echo "$$" >> ./logs/kill_code.dat
+
+#trap signal, call close sequence
+trap close USR2
+
+#define close sequence
+close() { 
+
+#alternate led setting on exit
+#sudo sh -c "echo heartbeat >/sys/class/leds/led0/trigger"
+
+#default led setting on exit
+sudo sh -c "echo mmc0 >/sys/class/leds/led0/trigger"
+
+#set exit code
+exit 0
+
+}
+
+#set initial delay incase logfiles do not exist
+DELAY=1
+
+#initiate loop
 while true; do
 
-DELAY=$(tail -1 ./logs/cpu_av.dat | awk '{print $2}')
-
+#turn on led
 sudo sh -c "echo 1 >/sys/class/leds/led0/brightness"
 
+#sleep timer
 sleep "$DELAY"
 
+#turn off led
 sudo sh -c "echo 0 >/sys/class/leds/led0/brightness"
 
+#set value for sleep timer
+DELAY=$(tail -1 ./logs/cpu_av.dat | awk '{print $2}')
+
+#loop complete
 done
 
 
-
-
-
-
-
-
-
-#sudo sh -c "echo heartbeat >/sys/class/leds/led0/trigger"
-
-#echo mmc0 >/sys/class/leds/led0/trigger

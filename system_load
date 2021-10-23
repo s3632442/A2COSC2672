@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#echo none >/sys/class/leds/led0/trigger
-
 #clear old logs
 rm -r ./logs/cpu_us.dat
 rm -r ./logs/cpu_sy.dat

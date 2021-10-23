@@ -113,7 +113,25 @@ CPUPCT=.$CPUIDL
 
 #save output to logfile
 echo "$SECINC" "$CPUPCT" >> ./logs/cpuidl.dat
-    
+
+#retrieve cpu user utilization
+CPU_us=$(top -bn1 | awk "FNR == 3 {print}" | awk "{ print \$2}")
+
+#save output to logfile
+echo "$SECINC" "$CPU_us" >> ./logs/cpu_us.dat
+
+#retrieve cpu system utiliztaion
+CPU_sy=$(top -bn1 | awk "FNR == 3 {print}" | awk "{ print \$4}")
+
+#save output to logfile
+echo "$SECINC" "$CPU_sy" >> ./logs/cpu_sy.dat
+
+#get average utilization and divide by 5
+CPU_av=.$(echo "((($CPU_sy+$CPU_us)*100)/5)" | bc | cut -c1-2)
+
+#save output to logfile
+echo "$SECINC" "$CPU_av" >> ./logs/cpu_av.dat
+
 #inform user
 printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 
@@ -137,9 +155,16 @@ sleep 1
 printf "\\n-  -  -   -   -  - LOG @ ./logs/ , IMG @ ./images/ - -   -   -   -   -   -   "
 printf "\\n-  -  -   -   -   -   -  - PROFILER CLOSED - -   -   -   -   -   -   -   -   "
 printf "\\n-  -  -   -   -   -  -  - REPORT @ ./report - -   -   -   -   -   -   -   -   "
+
 #delay for readability
 sleep 2
 printf "\\n-  -  -   -   -   -   - - ENTER TO CONSOLE - -   -   -   -   -    -   -   -   "
+
+#call kill sequence from logfile value set by child script
+LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
+
+#fires kill code for led control
+kill -USR2 "$LED_KILL_CODE" 2>/dev/null
 
 #exit and set code
 exit 0
@@ -149,6 +174,7 @@ exit 0
 #inform user
 printf "\\n-  -   - 	-	-   -	- STARTING PROFILER - -   -   -   -   -   -   -   -   "
 
+#delay for readability
 sleep 1
 
 #inform user
@@ -184,6 +210,7 @@ printf    "\\ninstalled"
 #finish installation confirmation sequence
 fi
 
+#delay for readability
 sleep 1
 
 #inform user
@@ -192,6 +219,7 @@ printf "\\ngnuplot is required"
 #inform user
 printf "\\nchecking if gnuplot installed"
 
+#check if gnupot installed
 if ! dpkg -s gnuplot &> /dev/null
 
 #if not installed, update and install
@@ -228,6 +256,9 @@ printf  "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -
 
 #initiate increment
 SECINC=0
+
+#run led control script
+./led_control &
 
 #clear old logs
 rm -r ./logs/*
@@ -332,6 +363,24 @@ CPUPCT=.$CPUIDL
 
 #save output to logfile
 echo "$SECINC" "$CPUPCT" >> ./logs/cpuidl.dat
+
+#retrieve cpu user utilization
+CPU_us=$(top -bn1 | awk "FNR == 3 {print}" | awk "{ print \$2}")
+
+#save output to logfile
+echo "$SECINC" "$CPU_us" >> ./logs/cpu_us.dat
+
+#retrieve cpu system utiliztaion
+CPU_sy=$(top -bn1 | awk "FNR == 3 {print}" | awk "{ print \$4}")
+
+#save output to logfile
+echo "$SECINC" "$CPU_sy" >> ./logs/cpu_sy.dat
+
+#get average utilization and divide by 5
+CPU_av=.$(echo "((($CPU_sy+$CPU_us)*100)/5)" | bc | cut -c1-2)
+
+#save output to logfile
+echo "$SECINC" "$CPU_av" >> ./logs/cpu_av.dat
 
 #delay timer
 sleep 1
