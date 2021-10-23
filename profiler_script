@@ -30,14 +30,14 @@ echo "$SECINC" "$GPUTMP" >> ./logs/gputemp.dat
 #get cpu freq, format data and save to log
 CLOCKHZ=$( (vcgencmd measure_clock arm) | cut -c15-25) 
 
-#MHZ divisor
-MHZDV=100000000 
+#GHZ divisor
+GHZDV=100000000 
 
-#processing data to represent MHZ
-CLKMHZ=$((CLOCKHZ / MHZDV)) 
+#processing data to represent GHZ
+CLKGHZ=$((CLOCKHZ / GHZDV)) 
 
 #save output to logfile
-echo "$SECINC" "$CLKMHZ" >> ./logs/cpufreq.dat
+echo "$SECINC" "$CLKGHZ" >> ./logs/cpufreq.dat
 
 #retrieve data, extract desired elements, format and assign to variable
 MMTOE=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$1}" | cut -c 1-3 )
@@ -119,30 +119,16 @@ printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  
 
 #psercentages to graph display and save to png
 #plot cpu
-gnuplot -e "set title \"CPU USAGE\"; set ylabel \"PERCENTAGE\"; set xlabel \"SECONDS\"; 
-plot \"./logs/cpuusr.dat\" using 2 title 'USER' with lines, \
-\"./logs/cpusys.dat\" using 2 title 'SYSTEM' with lines, \
-\"./logs/cpufreq.dat\" using 2 title 'cpu-freq (GHZ)' with lines, \
-\"./logs/cpuidl.dat\" using 2 title 'IDLE' with lines; pause -1; set term png size 700,700; set output \"./graph_images/CPUUSAGE.png\"; replot;"
+./gnuplot_scripts/cpu_util
 
 #plot cpu and gpu temp
-gnuplot -e "set title \"GPU TEMP\"; set ylabel \"TEMP DEGREES\"; set xlabel \"SECONDS\"; plot \"./logs/cputemp.dat\" using 2 title 'CPUTEMP' with lines, \
-\"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with lines; pause -1; set term png size 700,700; set output \"./graph_images/TEMPS.png\"; replot;"
+./gnuplot_scripts/cpu_gpu_temp
 
 #plot memory in Gi
-gnuplot -e "set title \"MAIN MEMORY\"; set ylabel \"Gi\"; set xlabel \"SECONDS\"; 
-plot \"./logs/mmto.dat\" using 2 title 'mem-total' with lines, \
-\"./logs/mmfr.dat\" using 2 title 'mem-free' with lines, \
-\"./logs/mmca.dat\" using 2 title 'mem-cache' with lines, \
-\"./logs/mmav.dat\" using 2 title 'mem-avail' with lines; pause -1; set term png size 700,700; set output \"./graph_images/MAINMEM.png\"; replot;"
+./gnuplot_scripts/memory_Gi
 
 #plot memory in Mi
-gnuplot -e "set title \"SWAP MEMORY\"; set ylabel \"Mi\"; set xlabel \"SECONDS\"; 
-plot \"./logs/mmus.dat\" using 2 title 'mem-used' with lines, \
-\"./logs/mmsh.dat\" using 2 title 'mem-shared' with lines, \
-\"./logs/mmswto.dat\" using 2 title 'swap-total' with lines, \
-\"./logs/mswus.dat\" using 2 title 'swap-used' with lines, \
-\"./logs/mmswfr.dat\" using 2 title 'swap-free' with lines; pause -1; set term png size 700,700; set output \"./graph_images/SWAPMEM.png\"; replot;" 
+./gnuplot_scripts/memory_Mi
 
 #delay to make sequence change obvious    
 sleep 1
@@ -150,6 +136,9 @@ sleep 1
 #inform user
 printf "\\n-  -  -   -   -  - LOG @ ./logs/ , IMG @ ./images/ - -   -   -   -   -   -   "
 printf "\\n-  -  -   -   -   -   -  - PROFILER CLOSED - -   -   -   -   -   -   -   -   "
+printf "\\n-  -  -   -   -   -  -  - REPORT @ ./report - -   -   -   -   -   -   -   -   "
+#delay for readability
+sleep 2
 printf "\\n-  -  -   -   -   -   - - ENTER TO CONSOLE - -   -   -   -   -    -   -   -   "
 
 #exit and set code
@@ -160,11 +149,13 @@ exit 0
 #inform user
 printf "\\n-  -   - 	-	-   -	- STARTING PROFILER - -   -   -   -   -   -   -   -   "
 
+sleep 1
+
 #inform user
 printf "\\nsysstat is required"
 
 #inform user
-printf "\\nchecking if installed"
+printf "\\nchecking if sysstat installed"
 
 #check if sysstat is installed
 if ! dpkg -s sysstat &> /dev/null
@@ -182,13 +173,48 @@ sudo apt-get update
 sudo apt-get install sysstat
 
 #inform user
-printf "\\installed - continuing"
+printf "\\ninstalled - continuing"
 
 #if installed continue without installing
 else
 
 #inform user
 printf    "\\ninstalled"
+
+#finish installation confirmation sequence
+fi
+
+sleep 1
+
+#inform user
+printf "\\ngnuplot is required"
+
+#inform user
+printf "\\nchecking if gnuplot installed"
+
+if ! dpkg -s gnuplot &> /dev/null
+
+#if not installed, update and install
+then
+
+#inform user
+printf "\\ngnuplot not installed - installing"  
+
+#update os
+sudo apt-get update
+
+#install systat
+sudo apt-get install gnuplot
+
+#inform user
+printf "\\ngnuplot installed - continuing"
+
+#if installed continue without installing
+else
+
+#inform user
+printf    "\\ninstalled"
+
 
 #finish installation confirmation sequence
 fi
@@ -224,14 +250,14 @@ echo "$SECINC" "$GPUTMP" >> ./logs/gputemp.dat
 #get cpu freq, format data and save to log
 CLOCKHZ=$( (vcgencmd measure_clock arm) | cut -c15-25) 
 
-#MHZ divisor
-MHZDV=100000000 
+#GHZ divisor
+GHZDV=100000000 
 
-#processing data to represent MHZ
-CLKMHZ=$((CLOCKHZ / MHZDV)) 
+#processing data to represent GHZ
+CLKGHZ=$((CLOCKHZ / GHZDV)) 
 
 #save output to logfile
-echo "$SECINC" "$CLKMHZ" >> ./logs/cpufreq.dat
+echo "$SECINC" "$CLKGHZ" >> ./logs/cpufreq.dat
 
 MMTO=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$1}" | cut -c 1-3 )
 

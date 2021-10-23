@@ -1,0 +1,6 @@
+#!/bin/bash
+
+gnuplot -e "set title \"MAIN MEMORY\"; set ylabel \"GB\"; set xlabel \"SECONDS\"; 
+plot \"./logs/mmto.dat\" using 2 title 'mem-total' with linespoints, \
+\"./logs/mmca.dat\" using 2 title 'mem-cache' with linespoints, \
+\"./logs/mmav.dat\" using 2 title 'mem-avail' with linespoints; pause -1; set term png size 700,700; set output \"./graph_images/MEM_Gi.png\"; replot;"

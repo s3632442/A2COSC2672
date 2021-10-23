@@ -1,0 +1,5 @@
+#!/bin/bash
+
+gnuplot -e "set title \"GPU TEMP\"; set ylabel \"TEMP DEGREES C\"; set xlabel \"SECONDS\"; plot \"./logs/cputemp.dat\" using 2 title 'CPUTEMP' with linespoints, \
+\"./logs/cpufreq.dat\" using 2 title 'cpu-freq (GHZ/10)' with linespoints, \
+\"./logs/gputemp.dat\" using 2 title 'GPUTEMP' with linespoints; pause -1; set term png size 700,700; set output \"./graph_images/TEMPS.png\"; replot;"
