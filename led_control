@@ -1,31 +1,27 @@
 #!/bin/bash
 
-#echo none >/sys/class/leds/led0/trigger
+sudo sh -c "echo none >/sys/class/leds/led0/trigger"
 
-#clear old logs
-rm -r ./logs/cpu_us.dat
-rm -r ./logs/cpu_sy.dat
-rm -r ./logs/cpu_av.dat
+while true; do
 
-SECINC_LED=0
+DELAY=$(tail -1 ./logs/cpu_av.dat | awk '{print $2}')
 
-#loop functions to collect metrics every one second
-while true ; do
+sudo sh -c "echo 1 >/sys/class/leds/led0/brightness"
 
-CPU_us=$(top -bn1 | awk "FNR == 3 {print}" | awk "{ print \$2}")
+sleep "$DELAY"
 
-echo "$SECINC_LED" "$CPU_us" >> ./logs/cpu_us.dat
+sudo sh -c "echo 0 >/sys/class/leds/led0/brightness"
 
-CPU_sy=$(top -bn1 | awk "FNR == 3 {print}" | awk "{ print \$4}")
-
-echo "$SECINC_LED" "$CPU_sy" >> ./logs/cpu_sy.dat
-
-CPU_av=.$(echo "((($CPU_sy+$CPU_us)*100)/5)" | bc | cut -c1-2)
-
-echo "$SECINC_LED" "$CPU_av" >> ./logs/cpu_av.dat
-
-#increment seconds
-(( SECINC_LED++ ))
-
-#loop complete
 done
+
+
+
+
+
+
+
+
+
+#sudo sh -c "echo heartbeat >/sys/class/leds/led0/trigger"
+
+#echo mmc0 >/sys/class/leds/led0/trigger
