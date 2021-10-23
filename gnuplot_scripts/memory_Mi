@@ -3,7 +3,7 @@
 gnuplot -e "set title \"SWAP MEMORY\"; set ylabel \"MB\"; set xlabel \"SECONDS\"; 
 plot \"./logs/mmus.dat\" using 2 title 'mem-used' with linespoints, \
 \"./logs/mmsh.dat\" using 2 title 'mem-shared' with linespoints, \
-\"./logs/mmswto.dat\" using 2 title 'swap-total' with linespoints, \
+\"./logs/mswto.dat\" using 2 title 'swap-total' with linespoints, \
 \"./logs/mswus.dat\" using 2 title 'swap-used' with linespoints, \
 \"./logs/mmfr.dat\" using 2 title 'mem-free' with linespoints, \
-\"./logs/mmswfr.dat\" using 2 title 'swap-free' with linespoints; pause -1; set term png size 700,700; set output \"./graph_images/MEM_Mi.png\"; replot;" 
+\"./logs/mswfr.dat\" using 2 title 'swap-free' with linespoints; pause -1; set term png size 700,700; set output \"./graph_images/MEM_Mi.png\"; replot;" 
