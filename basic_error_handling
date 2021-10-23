@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# if ! some_command; then
+#     echo "some_command returned an error"
+# fi
+
+# asdf || ls
+
+# error_exit()
+# {
+#     echo "Error: $1"
+#     exit 1
+# }
+
+# run-some-bad-command || error_exit "Some error occurred"
+
+# run some command
+
+
+status=$?
+if [ $status -eq 1 ]; then
+    echo "General error"
+elif [ $status -eq 2 ]; then
+    echo "Misuse of shell builtins"
+elif [ $status -eq 126 ]; then
+    echo "Command invoked cannot execute"
+elif [ $status -eq 128 ]; then
+    echo "Invalid argument"
+fi
