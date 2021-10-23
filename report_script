@@ -1,0 +1,36 @@
+#!/bin/bash
+
+#inform user
+printf "\\ngrip required"
+
+#inform user
+printf "\\nchecking if grip installed"
+
+#check if sysstat is installed
+if ! dpkg -s grip &> /dev/null
+
+#if not installed, update and install
+then
+
+#inform user
+printf "\\nnot installed - installing"  
+
+#update os
+sudo apt-get update
+
+#install systat
+sudo apt-get install grip
+
+#inform user
+printf "\\ninstalled - continuing"
+
+#if installed continue without installing
+else
+
+#inform user
+printf    "\\ninstalled"
+
+#finish installation confirmation sequence
+fi
+
+grip report.md

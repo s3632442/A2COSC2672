@@ -22,7 +22,7 @@ sudo sh -c "echo mmc0 >/sys/class/leds/led0/trigger"
 exit 0
 
 }
-
+ 
 #set initial delay incase logfiles do not exist
 DELAY=1
 

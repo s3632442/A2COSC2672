@@ -32,7 +32,7 @@ CLOCKHZ=$( (vcgencmd measure_clock arm) | cut -c15-25)
 
 #GHZ divisor
 GHZDV=100000000 
-
+ 
 #processing data to represent GHZ
 CLKGHZ=$((CLOCKHZ / GHZDV)) 
 
