@@ -126,8 +126,14 @@ CPU_sy=$(top -bn1 | awk "FNR == 3 {print}" | awk "{ print \$4}")
 #save output to logfile
 echo "$SECINC" "$CPU_sy" >> ./logs/cpu_sy.dat
 
+#constant for creating numbers less than one
+readonly PERCENT_DIVISOR=100
+
+#constant used to format system load as a fraction of a second
+readonly FRAC_DIVISOR=5
+
 #get average utilization and divide by 5
-CPU_av=.$(echo "((($CPU_sy+$CPU_us)*100)/5)" | bc | cut -c1-2)
+CPU_av=.$(echo "((($CPU_sy+$CPU_us)*$PERCENT_DIVISOR)/$FRAC_DIVISOR)" | bc | cut -c1-2)
 
 #save output to logfile
 echo "$SECINC" "$CPU_av" >> ./logs/cpu_av.dat
