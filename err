@@ -336,12 +336,12 @@ printf  "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -
 SECINC=0
 
 
-
+(
 
 set +o pipefail +e
 
 #run led control script
-./led_control &
+#./led_control &
 
 #loop functions to collect metrics every one second
 while true ; do
@@ -467,13 +467,13 @@ echo "$SECINC" "$CPU_av" >> ./logs/cpu_av.dat
 #delay timer
 sleep 1
 
-set +o pipefail +e
+
 
 
 #increment seconds
-(( SECINC++ ))
-
-
+(( ++SECINC ))
+set +o pipefail +e
+) || throw $ERR_CRITICAL
 
 
 
@@ -494,8 +494,21 @@ done
 )
 catch || {
 
-
-	echo caught
+  case $exception_code in
+        $ERR_BAD)
+            echo "This error is bad"
+        ;;
+        $ERR_WORSE)
+            echo "This error is worse"
+        ;;
+        $ERR_CRITICAL)
+            echo "This error is critical"
+        ;;
+        *)
+            echo "Unknown error: $exit_code"
+            throw $exit_code    # re-throw an unhandled exception
+        ;;
+    esac
 
 	
 }

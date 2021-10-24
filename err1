@@ -197,10 +197,10 @@ sleep 2
 printf "\\n-  -  -   -   -   -   - - ENTER TO CONSOLE - -   -   -   -   -    -   -   -   "
 
 #call kill sequence from logfile value set by child script
-# LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
+LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
 
 #fires kill code for led control
-# kill -USR2 "$LED_KILL_CODE" 2>/dev/null
+kill -USR2 "$LED_KILL_CODE" 2>/dev/null
 
 set +o pipefail +e
 
@@ -332,12 +332,8 @@ printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  
 printf  "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -   -"
 
 
-#initiate increment
-SECINC=0
-
 #run led control script
-# ./led_control &
-
+./led_control &
 
 set +o pipefail +e
 
@@ -359,14 +355,21 @@ set +o pipefail +e
 
 
 
-
+#initiate increment
+SECINC=0
 
 
 
 #profiler loop
 while true ; do
 (
+
+
+
+
 set -o pipefail -e
+
+
 
 #get cpu temp, format data and save to log
 CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
