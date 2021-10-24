@@ -1,6 +1,8 @@
 #!/bin/bash
 
 
+
+
 # Include trybatch.sh as a library
 source ./try_catch
 
@@ -9,14 +11,26 @@ export ERR_BAD=100
 export ERR_WORSE=101
 export ERR_CRITICAL=102
 
+
+
+
+
+
+
+
+
+
+
+
 try
 (
 
 
 
-set -o pipefail -e
+
+
 #inform user 
-sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" $$
+sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" $BASHPID
 
 #trap signal, call close sequence
 trap close USR1
@@ -156,18 +170,18 @@ echo "$SECINC" "$CPU_av" >> ./logs/cpu_av.dat
 #inform user
 printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 
-# #psercentages to graph display and save to png
-# #plot cpu
-# ./gnuplot_scripts/cpu_util
+#psercentages to graph display and save to png
+#plot cpu
+./gnuplot_scripts/cpu_util
 
-# #plot cpu and gpu temp
-# ./gnuplot_scripts/cpu_gpu_temp
+#plot cpu and gpu temp
+./gnuplot_scripts/cpu_gpu_temp
 
-# #plot memory in Gi
-# ./gnuplot_scripts/memory_Gi
+#plot memory in Gi
+./gnuplot_scripts/memory_Gi
 
-# #plot memory in Mi
-# ./gnuplot_scripts/memory_Mi
+#plot memory in Mi
+./gnuplot_scripts/memory_Mi
 
 #delay to make sequence change obvious    
 sleep 1
@@ -192,8 +206,24 @@ exit 0
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #inform user
-printf "\\n-  -   -     -   -   -   - STARTING PROFILER - -   -   -   -   -   -   -   -   "
+printf "\\n-  -   - 	-	-   -	- STARTING PROFILER - -   -   -   -   -   -   -   -   "
 
 #delay for readability
 sleep 1
@@ -204,8 +234,8 @@ if [[ -f ./logs/cpusys.dat && -f ./logs/mswfr.dat && -f ./logs/gputemp.dat && -f
 #inform user
 printf "\\ndata logs cleared"
 
-# #clear old logs
-# rm -r ./logs/*
+#clear old logs
+rm -r ./logs/*
 
 fi
 
@@ -281,18 +311,45 @@ printf    "\\ninstalled"
 #finish installation confirmation sequence
 fi
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #inform user
 printf "\\n-  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -  -   -   -  -"
 printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -  -"
-printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  -  -  -" $$
+printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  -  -  -" $BASHPID
 printf  "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -   -"
 
 
 #initiate increment
 SECINC=0
 
-# #run led control script
-# ./led_control &
+#run led control script
+./led_control &
 
 #loop functions to collect metrics every one second
 while true ; do
@@ -414,23 +471,33 @@ CPU_av=.$(echo "((($CPU_sy+$CPU_us)*100)/5)" | bc | cut -c1-2)
 echo "$SECINC" "$CPU_av" >> ./logs/cpu_av.dat
 
 #delay timer
-sle7ep 1
+sleep 1
 
 #increment seconds
 (( SECINC++ ))
 
 #loop complete
 done
-set +o pipefail +e
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 )
 catch || {
 
-    echo bullshit $?
-
-
-case $exception_code in
+	case $exception_code in
         $ERR_BAD)
             echo "This error is bad"
         ;;
@@ -445,8 +512,4 @@ case $exception_code in
             throw $exit_code    # re-throw an unhandled exception
         ;;
     esac
-
-
-
-
 }
