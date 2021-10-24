@@ -1,67 +1,43 @@
 #!/bin/bash
 
-
-
-
 # Include trybatch.sh as a library
 source ./try_catch
 
-
-
-
-
-
-
-
-
-
-
+# Define custom exception types
+export ERR_BAD=100
+export ERR_WORSE=101
+export ERR_CRITICAL=102
 
 
 try
 (
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-set -o pipefail -e
-
-
-#inform user 
-sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" $BASHPID
+SOMETHING=$BASHPID
 
 #trap signal, call close sequence
 trap close USR1
 
-set +o pipefail +e
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #define close sequence
 close() { 
+
+#exit signal function
+(
 set -o pipefail -e
 #inform user
 printf "\\n-  -   -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   "
@@ -195,18 +171,18 @@ echo "$SECINC" "$CPU_av" >> ./logs/cpu_av.dat
 #inform user
 printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 
-#psercentages to graph display and save to png
-#plot cpu
-./gnuplot_scripts/cpu_util
+# #psercentages to graph display and save to png
+# #plot cpu
+# ./gnuplot_scripts/cpu_util
 
-#plot cpu and gpu temp
-./gnuplot_scripts/cpu_gpu_temp
+# #plot cpu and gpu temp
+# ./gnuplot_scripts/cpu_gpu_temp
 
-#plot memory in Gi
-./gnuplot_scripts/memory_Gi
+# #plot memory in Gi
+# ./gnuplot_scripts/memory_Gi
 
-#plot memory in Mi
-./gnuplot_scripts/memory_Mi
+# #plot memory in Mi
+# ./gnuplot_scripts/memory_Mi
 
 #delay to make sequence change obvious    
 sleep 1
@@ -221,23 +197,47 @@ sleep 2
 printf "\\n-  -  -   -   -   -   - - ENTER TO CONSOLE - -   -   -   -   -    -   -   -   "
 
 #call kill sequence from logfile value set by child script
-LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
+# LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
 
 #fires kill code for led control
-kill -USR2 "$LED_KILL_CODE" 2>/dev/null
-
+# kill -USR2 "$LED_KILL_CODE" 2>/dev/null
 
 set +o pipefail +e
+
+) || throw $ERR_BAD
 
 #exit and set code
 exit 0
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#dependancy installation
+(
+
+#inform user 
+sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" $SOMETHING
+
 set -o pipefail -e
 
 #inform user
-printf "\\n-  -   - 	-	-   -	- STARTING PROFILER - -   -   -   -   -   -   -   -   "
+printf "\\n-  -   -     -   -   -   - STARTING PROFILER - -   -   -   -   -   -   -   -   "
 
 #delay for readability
 sleep 1
@@ -328,24 +328,44 @@ fi
 #inform user
 printf "\\n-  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -  -   -   -  -"
 printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -  -"
-printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  -  -  -" $BASHPID
+printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  -  -  -" $SOMETHING
 printf  "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -   -"
 
 
 #initiate increment
 SECINC=0
 
-
+#run led control script
+# ./led_control &
 
 
 set +o pipefail +e
 
-#run led control script
-./led_control &
 
-#loop functions to collect metrics every one second
+) || throw $ERR_WORSE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#profiler loop
 while true ; do
-
+(
 set -o pipefail -e
 
 #get cpu temp, format data and save to log
@@ -470,11 +490,13 @@ sleep 1
 set +o pipefail +e
 
 
+
+
 #increment seconds
-(( SECINC++ ))
+(( ++SECINC ))
 
 
-
+) || throw $ERR_CRITICAL
 
 
 
@@ -495,7 +517,21 @@ done
 catch || {
 
 
-	echo caught
+    case $exception_code in
+        $ERR_BAD)
+            echo "This error is bad"
+        ;;
+        $ERR_WORSE)
+            echo "This error is worse"
+        ;;
+        $ERR_CRITICAL)
+            echo "This error is critical"
+        ;;
+        *)
+            echo "Unknown error: $exit_code"
+            throw $exit_code    # re-throw an unhandled exception
+        ;;
+    esac
 
-	
+    
 }
