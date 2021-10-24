@@ -29,6 +29,33 @@ try
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #inform user 
 sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" $BASHPID
 
@@ -488,28 +515,11 @@ done
 
 
 
-
-
-
-
-
-
 )
 catch || {
 
-	case $exception_code in
-        $ERR_BAD)
-            echo "This error is bad"
-        ;;
-        $ERR_WORSE)
-            echo "This error is worse"
-        ;;
-        $ERR_CRITICAL)
-            echo "This error is critical"
-        ;;
-        *)
-            echo "Unknown error: $exit_code"
-            throw $exit_code    # re-throw an unhandled exception
-        ;;
-    esac
+
+	echo caught
+
+	
 }
