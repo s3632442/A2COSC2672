@@ -6,10 +6,6 @@
 # Include trybatch.sh as a library
 source ./try_catch
 
-# Define custom exception types
-export ERR_BAD=100
-export ERR_WORSE=101
-export ERR_CRITICAL=102
 
 
 
@@ -53,7 +49,7 @@ try
 
 
 
-
+set -o pipefail -e
 
 
 #inform user 
@@ -62,9 +58,11 @@ sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" $BASHPID
 #trap signal, call close sequence
 trap close USR1
 
+set +o pipefail +e
+
 #define close sequence
 close() { 
-
+set -o pipefail -e
 #inform user
 printf "\\n-  -   -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   "
 
@@ -197,18 +195,18 @@ echo "$SECINC" "$CPU_av" >> ./logs/cpu_av.dat
 #inform user
 printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 
-#psercentages to graph display and save to png
-#plot cpu
-./gnuplot_scripts/cpu_util
+# #psercentages to graph display and save to png
+# #plot cpu
+# ./gnuplot_scripts/cpu_util
 
-#plot cpu and gpu temp
-./gnuplot_scripts/cpu_gpu_temp
+# #plot cpu and gpu temp
+# ./gnuplot_scripts/cpu_gpu_temp
 
-#plot memory in Gi
-./gnuplot_scripts/memory_Gi
+# #plot memory in Gi
+# ./gnuplot_scripts/memory_Gi
 
-#plot memory in Mi
-./gnuplot_scripts/memory_Mi
+# #plot memory in Mi
+# ./gnuplot_scripts/memory_Mi
 
 #delay to make sequence change obvious    
 sleep 1
@@ -223,31 +221,21 @@ sleep 2
 printf "\\n-  -  -   -   -   -   - - ENTER TO CONSOLE - -   -   -   -   -    -   -   -   "
 
 #call kill sequence from logfile value set by child script
-LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
+# LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
 
 #fires kill code for led control
-kill -USR2 "$LED_KILL_CODE" 2>/dev/null
+# kill -USR2 "$LED_KILL_CODE" 2>/dev/null
+
+echo exiting
+
+set +o pipefail +e
 
 #exit and set code
 exit 0
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+set -o pipefail -e
 
 #inform user
 printf "\\n-  -   - 	-	-   -	- STARTING PROFILER - -   -   -   -   -   -   -   -   "
@@ -338,33 +326,6 @@ printf    "\\ninstalled"
 #finish installation confirmation sequence
 fi
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #inform user
 printf "\\n-  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -  -   -   -  -"
 printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -  -"
@@ -376,10 +337,15 @@ printf  "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -
 SECINC=0
 
 #run led control script
-./led_control &
+# ./led_control &
+
+
+set +o pipefail +e
 
 #loop functions to collect metrics every one second
 while true ; do
+
+set -o pipefail -e
 
 #get cpu temp, format data and save to log
 CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
@@ -500,12 +466,21 @@ echo "$SECINC" "$CPU_av" >> ./logs/cpu_av.dat
 #delay timer
 sleep 1
 
+set +o pipefail +e
+
+
 #increment seconds
 (( SECINC++ ))
 
+
+
+
+
+
+
+
 #loop complete
 done
-
 
 
 
