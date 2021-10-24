@@ -411,4 +411,4 @@ sleep 1
 (( SECINC++ )) || error_exit "Profiler loop failed with exit code \"$?\""
 
 #loop complete
-done || error_exit "Profiler loop failed with exit code \"$?\""
+done 
