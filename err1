@@ -4,37 +4,28 @@
 source ./try_catch
 
 # Define custom exception types
-export ERR_BAD=100
-export ERR_WORSE=101
-export ERR_CRITICAL=102
+export ERR_CLOSE=100
+export ERR_DEPENDANCIES=101
+export ERR_PROFILER=102
 
 
 try
 (
 
+#sets parent bash pid for internal reference
 SOMETHING=$BASHPID
+#initiate increment
+SECINC=0
 
 #trap signal, call close sequence
 trap close USR1
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #define close sequence
 close() { 
+
+
 
 #exit signal function
 (
@@ -171,18 +162,18 @@ echo "$SECINC" "$CPU_av" >> ./logs/cpu_av.dat
 #inform user
 printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 
-# #psercentages to graph display and save to png
-# #plot cpu
-# ./gnuplot_scripts/cpu_util
+#psercentages to graph display and save to png
+#plot cpu
+./gnuplot_scripts/cpu_util
 
-# #plot cpu and gpu temp
-# ./gnuplot_scripts/cpu_gpu_temp
+#plot cpu and gpu temp
+./gnuplot_scripts/cpu_gpu_temp
 
-# #plot memory in Gi
-# ./gnuplot_scripts/memory_Gi
+#plot memory in Gi
+./gnuplot_scripts/memory_Gi
 
-# #plot memory in Mi
-# ./gnuplot_scripts/memory_Mi
+#plot memory in Mi
+./gnuplot_scripts/memory_Mi
 
 #delay to make sequence change obvious    
 sleep 1
@@ -204,28 +195,12 @@ kill -USR2 "$LED_KILL_CODE" 2>/dev/null
 
 set +o pipefail +e
 
-) || throw $ERR_BAD
+) || throw $ERR_CLOSE
 
 #exit and set code
 exit 0
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #dependancy installation
@@ -338,25 +313,7 @@ printf  "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -
 set +o pipefail +e
 
 
-) || throw $ERR_WORSE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#initiate increment
-SECINC=0
+) || throw $ERR_DEPENDANCIES
 
 
 
@@ -499,7 +456,7 @@ set +o pipefail +e
 (( ++SECINC ))
 
 
-) || throw $ERR_CRITICAL
+) || throw $ERR_PROFILER
 
 
 
@@ -521,13 +478,13 @@ catch || {
 
 
     case $exception_code in
-        $ERR_BAD)
+        $ERR_CLOSE)
             echo "This error is bad"
         ;;
-        $ERR_WORSE)
+        $ERR_DEPENDANCIES)
             echo "This error is worse"
         ;;
-        $ERR_CRITICAL)
+        $ERR_PROFILER)
             echo "This error is critical"
         ;;
         *)
