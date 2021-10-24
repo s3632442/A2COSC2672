@@ -156,18 +156,18 @@ try
         #inform user
         printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 
-        # #psercentages to graph display and save to png
-        # #plot cpu
-        # ./gnuplot_scripts/cpu_util
+        #psercentages to graph display and save to png
+        #plot cpu
+        ./gnuplot_scripts/cpu_util
 
-        # #plot cpu and gpu temp
-        # ./gnuplot_scripts/cpu_gpu_temp
+        #plot cpu and gpu temp
+        ./gnuplot_scripts/cpu_gpu_temp
 
-        # #plot memory in Gi
-        # ./gnuplot_scripts/memory_Gi
+        #plot memory in Gi
+        ./gnuplot_scripts/memory_Gi
 
-        # #plot memory in Mi
-        # ./gnuplot_scripts/memory_Mi
+        #plot memory in Mi
+        ./gnuplot_scripts/memory_Mi
 
         #delay to make sequence change obvious
         sleep 1
@@ -181,11 +181,11 @@ try
         sleep 2
         printf "\\n-  -  -   -   -   -   - - ENTER TO CONSOLE - -   -   -   -   -    -   -   -   "
 
-        # #call kill sequence from logfile value set by child script
-        # LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
+        #call kill sequence from logfile value set by child script
+        LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
 
-        # #fires kill code for led control
-        # kill -USR2 "$LED_KILL_CODE" 2>/dev/null
+        #fires kill code for led control
+        kill -USR2 "$LED_KILL_CODE" 2>/dev/null
 
         #exit and set code
         exit 0
@@ -292,7 +292,7 @@ try
     printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -   -"
 
     #run led control script
-    #./led_control &
+    ./led_control &
 
     #exits false if any effor occurs
     set +o pipefail +e
@@ -420,7 +420,7 @@ try
         echo "$SECINC" "$CPU_av" >>./logs/cpu_av.dat
 
         #delay timer
-        sle9ep 1
+        sleep 1
 
         #exits false if any effor occurs
         set +o pipefail +e
