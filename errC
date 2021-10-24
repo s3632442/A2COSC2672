@@ -1,0 +1,451 @@
+#!/bin/bash
+
+
+
+# Include try_catch as a library
+# shellcheck disable=SC1091
+source ./try_catch
+
+# Define custom exception types
+export CLOSE_ERROR=100
+export PROFILER_ERROR=101
+export INIT_ERROR=102
+
+try
+
+(
+
+#inform user 
+sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" $BASHPID
+
+#trap signal, call close sequence
+trap close USR1 || throw $INIT_ERROR
+
+#define close sequence
+close() { 
+
+#inform user
+printf "\\n-  -   -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   "
+
+#delay for user to readability
+sleep 1
+
+#get cpu temp, format data and save to log
+CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
+
+#save output to logfile
+echo "$SECINC" "$CPUTEMP" >> ./logs/cputemp.dat
+
+#get gpu temp, format data and save to log
+GPUTMP=$( (vcgencmd measure_temp) | cut -c6-9) 
+
+#save output to logfile
+echo "$SECINC" "$GPUTMP" >> ./logs/gputemp.dat
+
+#get cpu freq, format data and save to log
+CLOCKHZ=$( (vcgencmd measure_clock arm) | cut -c15-25) 
+
+#GHZ divisor
+GHZDV=100000000 
+ 
+#processing data to represent GHZ
+CLKGHZ=$((CLOCKHZ / GHZDV)) 
+
+#save output to logfile
+echo "$SECINC" "$CLKGHZ" >> ./logs/cpufreq.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MMTO=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$1}" | cut -c 1-3 )
+
+#save output to logfile
+echo "$SECINC" "$MMTO"  >> ./logs/mmto.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MMUS=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$2}" | cut -c 1-2 )
+
+#save output to logfile
+echo "$SECINC" "$MMUS"  >> ./logs/mmus.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MMFR=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$3}" | cut -c 1-3 )
+
+#save output to logfile
+echo "$SECINC" "$MMFR"  >> ./logs/mmfr.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MMSH=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$4}" | cut -c 1-3 )
+
+#save output to logfile
+echo "$SECINC" "$MMSH"  >> ./logs/mmsh.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MMCA=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$5}" | cut -c 1-3 )
+
+#save output to logfile
+echo "$SECINC" "$MMCA"  >> ./logs/mmca.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MMAV=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$6}" | cut -c 1-3 )
+
+#save output to logfile
+echo "$SECINC" "$MMAV"  >> ./logs/mmav.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MSWTO=$( free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$1}" | cut -c 1-2 )
+
+#save output to logfile
+echo "$SECINC" "$MSWTO"  >> ./logs/mswto.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MSWUS=$( free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$2}" | cut -c 1-3 )
+
+#save output to logfile
+echo "$SECINC" "$MSWUS"  >> ./logs/mswus.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MSWFR=$( free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$3}" | cut -c 1-2 )
+
+#save output to logfile
+echo "$SECINC" "$MSWFR"  >> ./logs/mswfr.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+CPUUUSR=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3}")
+
+#save output to logfile
+echo "$SECINC" "$CPUUUSR" >> ./logs/cpuusr.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+CPUSYS=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$5}")
+
+#save output to logfile
+echo "$SECINC" "$CPUSYS" >> ./logs/cpusys.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+CPUIDL=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$12}" | cut -c1-2)
+
+#add decimal place 
+CPUPCT=.$CPUIDL
+
+#save output to logfile
+echo "$SECINC" "$CPUPCT" >> ./logs/cpuidl.dat
+
+#retrieve cpu user utilization
+CPU_us=$(top -bn1 | awk "FNR == 3 {print}" | awk "{ print \$2}")
+
+#save output to logfile
+echo "$SECINC" "$CPU_us" >> ./logs/cpu_us.dat
+
+#retrieve cpu system utiliztaion
+CPU_sy=$(top -bn1 | awk "FNR == 3 {print}" | awk "{ print \$4}")
+
+#save output to logfile
+echo "$SECINC" "$CPU_sy" >> ./logs/cpu_sy.dat
+
+#constant for creating numbers less than one
+readonly PERCENT_DIVISOR=100
+
+#constant used to format system load as a fraction of a second
+readonly FRAC_DIVISOR=5
+
+#get average utilization and divide by 5
+CPU_av=.$(echo "((($CPU_sy+$CPU_us)*$PERCENT_DIVISOR)/$FRAC_DIVISOR)" | bc | cut -c1-2)
+
+#save output to logfile
+echo "$SECINC" "$CPU_av" >> ./logs/cpu_av.dat
+
+#inform user
+printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
+
+#psercentages to graph display and save to png
+#plot cpu
+./gnuplot_scripts/cpu_util
+
+#plot cpu and gpu temp
+./gnuplot_scripts/cpu_gpu_temp
+
+#plot memory in Gi
+./gnuplot_scripts/memory_Gi
+
+#plot memory in Mi
+./gnuplot_scripts/memory_Mi
+
+#delay to make sequence change obvious    
+sleep 1
+
+#inform user
+printf "\\n-  -  -   -   -  - LOG @ ./logs/ , IMG @ ./images/ - -   -   -   -   -   -   "
+printf "\\n-  -  -   -   -   -   -  - PROFILER CLOSED - -   -   -   -   -   -   -   -   "
+printf "\\n-  -  -   -   -   -  -  - REPORT @ ./report - -   -   -   -   -   -   -   -   "
+
+#delay for readability
+sleep 2
+printf "\\n-  -  -   -   -   -   - - ENTER TO CONSOLE - -   -   -   -   -    -   -   -   "
+
+#call kill sequence from logfile value set by child script
+LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
+
+#fires kill code for led control
+kill -USR2 "$LED_KILL_CODE" 2>/dev/null
+
+#exit and set code
+exit 0
+
+} || throw $CLOSE_ERROR
+
+
+#inform user
+printf "\\n-  -   -     -   -   -   - STARTING PROFILER - -   -   -   -   -   -   -   -   "
+
+#delay for readability
+sleep 1
+
+#check if old logs exist
+if [[ -f ./logs/cpusys.dat && -f ./logs/mswfr.dat && -f ./logs/gputemp.dat && -f ./logs/kill_code.dat && -f ./logs/mmav.dat && -f ./logs/mmus.dat && -f ./logs/mmfr.dat && -f ./logs/mmca.dat && -f ./logs/mswus.dat && -f ./logs/cpu_sy.dat && -f ./logs/mmto.dat && -f ./logs/cpufreq.dat && -f ./logs/cpu_av.dat && -f ./logs/mswto.dat && -f ./logs/cputemp.dat && -f ./logs/mmsh.dat && -f ./logs/cpuidl.dat && -f ./logs/cpu_us.dat && -f ./logs/cpuusr.dat ]]; then
+
+#inform user
+printf "\\ndata logs cleared"
+
+#clear old logs
+rm -r ./logs/*
+
+fi
+
+sleep 1
+
+#inform user
+printf "\\nsysstat is required"
+
+#inform user
+printf "\\nchecking if sysstat installed"
+
+#check if sysstat is installed
+if ! dpkg -s sysstat &> /dev/null
+
+#if not installed, update and install
+then
+
+#inform user
+printf "\\nnot installed - installing"  
+
+#update os
+sudo apt-get update
+
+#install systat
+sudo apt-get install sysstat
+
+#inform user
+printf "\\ninstalled - continuing"
+
+#if installed continue without installing
+else
+
+#inform user
+printf    "\\ninstalled"
+
+#finish installation confirmation sequence
+fi
+
+#delay for readability
+sleep 1
+
+#inform user
+printf "\\ngnuplot is required"
+
+#inform user
+printf "\\nchecking if gnuplot installed"
+
+#check if gnupot installed
+if ! dpkg -s gnuplot &> /dev/null
+
+#if not installed, update and install
+then
+ 
+#inform user
+printf "\\ngnuplot not installed - installing"  
+
+asfaf
+
+#update os
+sudo apt-get update
+
+#install systat
+sudo apt-get install gnuplot
+
+#inform user
+printf "\\ngnuplot installed - continuing"
+
+#if installed continue without installing
+else
+
+#inform user
+printf    "\\ninstalled"
+
+
+#finish installation confirmation sequence
+fi
+
+#inform user
+printf "\\n-  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -  -   -   -  -"
+printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -  -"
+printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  -  -  -" $BASHPID
+printf  "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -   -"
+
+
+#initiate increment
+SECINC=0
+
+#run led control script
+#./led_control &
+
+#loop functions to collect metrics every one second
+while true ; do
+set -o pipefail -e
+#get cpu temp, format data and save to log
+CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2 ).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
+
+#save output to logfile
+echo "$SECINC" "$CPUTEMP" >> ./logs/cputemp.dat
+
+#get gpu temp, format data and save to log
+GPUTMP=$( (vcgencmd measure_temp) | cut -c6-9) 
+
+#save output to logfile
+echo "$SECINC" "$GPUTMP" >> ./logs/gputemp.dat
+
+#get cpu freq, format data and save to log
+CLOCKHZ=$( (vcgencmd measure_clock arm) | cut -c15-25) 
+
+#GHZ divisor
+GHZDV=100000000 
+
+#processing data to represent GHZ
+CLKGHZ=$((CLOCKHZ / GHZDV)) 
+
+#save output to logfile
+echo "$SECINC" "$CLKGHZ" >> ./logs/cpufreq.dat
+
+MMTO=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$1}" | cut -c 1-3 )
+
+#save output to logfile
+echo "$SECINC" "$MMTO"  >> ./logs/mmto.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MMUS=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$2}" | cut -c 1-2 )
+
+#save output to logfile
+echo "$SECINC" "$MMUS"  >> ./logs/mmus.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MMFR=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$3}" | cut -c 1-3 )
+
+#save output to logfile
+echo "$SECINC" "$MMFR"  >> ./logs/mmfr.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MMSH=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$4}" | cut -c 1-3 )
+
+#save output to logfile
+echo "$SECINC" "$MMSH"  >> ./logs/mmsh.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MMCA=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$5}" | cut -c 1-3 )
+
+#save output to logfile
+echo "$SECINC" "$MMCA"  >> ./logs/mmca.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MMAV=$( free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$6}" | cut -c 1-3 )
+
+#save output to logfile
+echo "$SECINC" "$MMAV"  >> ./logs/mmav.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MSWTO=$( free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$1}" | cut -c 1-2 )
+
+#save output to logfile
+echo "$SECINC" "$MSWTO"  >> ./logs/mswto.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MSWUS=$( free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$2}" | cut -c 1-3 )
+
+#save output to logfile
+echo "$SECINC" "$MSWUS"  >> ./logs/mswus.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+MSWFR=$( free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$3}" | cut -c 1-2 )
+
+#save output to logfile
+echo "$SECINC" "$MSWFR"  >> ./logs/mswfr.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+CPUUUSR=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$3}")
+
+#save to logfile
+echo "$SECINC" "$CPUUUSR" >> ./logs/cpuusr.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+CPUSYS=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$5}")
+
+#save output to logfile
+echo "$SECINC" "$CPUSYS" >> ./logs/cpusys.dat
+
+#retrieve data, extract desired elements, format and assign to variable
+CPUIDL=$(mpstat | awk 'FNR == 4 {print}' | awk "{ print \$12}" | cut -c1-2)
+
+#add decimal place 
+CPUPCT=.$CPUIDL
+
+#save output to logfile
+echo "$SECINC" "$CPUPCT" >> ./logs/cpuidl.dat
+
+#retrieve cpu user utilization
+CPU_us=$(top -bn1 | awk "FNR == 3 {print}" | awk "{ print \$2}")
+
+#save output to logfile
+echo "$SECINC" "$CPU_us" >> ./logs/cpu_us.dat
+
+#retrieve cpu system utiliztaion
+CPU_sy=$(top -bn1 | awk "FNR == 3 {print}" | awk "{ print \$4}")
+
+#save output to logfile
+echo "$SECINC" "$CPU_sy" >> ./logs/cpu_sy.dat
+
+#get average utilization and divide by 5
+CPU_av=.$(echo "((($CPU_sy+$CPU_us)*100)/5)" | bc | cut -c1-2)
+
+#save output to logfile
+echo "$SECINC" "$CPU_av" >> ./logs/cpu_av.dat
+
+#delay timer
+sleep 1
+
+#increment seconds
+(( SECINC++ ))|| throw $PROFILER_ERROR
+
+set +o pipefail +e
+
+#loop complete
+done 
+
+
+)
+
+
+catch || {
+    # shellcheck disable=SC2154
+    case "$exception_code" in
+        $CLOSE_ERROR)
+            echo "Profiler failed to close"
+        ;;
+        $PROFILER_ERROR)
+            echo "Profiler failed"
+        ;;
+        $INIT_ERROR)
+            echo "Profiler failed to initialze"
+        ;;
+        *)
+            echo "Unknown error: $?"
+            throw "$?"    # re-throw an unhandled exception
+        ;;
+    esac
+}

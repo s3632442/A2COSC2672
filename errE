@@ -1,22 +1,28 @@
 #!/bin/bash
 
-# Include try_catch as a library
+
+
+# Include trybatch.sh as a library
 # shellcheck disable=SC1091
 source ./try_catch
 
 # Define custom exception types
-export CLOSE_ERROR=100
-export PROFILER_ERROR=101
-export INIT_ERROR=102
+export PROFILER_ERR=100
+export CLOSE_ERR=101
+export INIT_ERR=102
 
 try
 (
 
+PID_CODE=$BASHPID
+
+#!/bin/bash
+
 #inform user 
-sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" $BASHPID
+sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" $PID_CODE
 
 #trap signal, call close sequence
-trap close USR1 || throw $INIT_ERROR
+trap close USR1
 
 #define close sequence
 close() { 
@@ -187,8 +193,7 @@ kill -USR2 "$LED_KILL_CODE" 2>/dev/null
 #exit and set code
 exit 0
 
-} || throw $CLOSE_ERROR
-
+}
 
 #inform user
 printf "\\n-  -   -     -   -   -   - STARTING PROFILER - -   -   -   -   -   -   -   -   "
@@ -260,8 +265,6 @@ then
 #inform user
 printf "\\ngnuplot not installed - installing"  
 
-asfaf
-
 #update os
 sudo apt-get update
 
@@ -284,7 +287,7 @@ fi
 #inform user
 printf "\\n-  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -  -   -   -  -"
 printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -  -"
-printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  -  -  -" $BASHPID
+printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  -  -  -" $PID_CODE
 printf  "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -   -"
 
 
@@ -420,29 +423,19 @@ sleep 1
 (( SECINC++ ))
 
 #loop complete
-done || throw $PROFILER_ERROR
+done
 
-
-    # This statement is not reached if there is any exception raised
-    # inside the try block.
-    echo "End of the try block"
-)
+    )|| throw $PROFILER_ERR
 
 
 catch || {
     # shellcheck disable=SC2154
-    case "$exception_code" in
-        $CLOSE_ERROR)
-            echo "Profiler failed to close"
-        ;;
-        $PROFILER_ERROR)
-            echo "Profiler failed"
-        ;;
-        $INIT_ERROR)
-            echo "Profiler failed to initialze"
+    case $exception_code in
+        $PROFILER_ERR)
+            echo "This error is bad"
         ;;
         *)
-            echo "Unknown error: $exit_code"
+            echo "Unknown error: $?"
             throw "$exit_code"    # re-throw an unhandled exception
         ;;
     esac
