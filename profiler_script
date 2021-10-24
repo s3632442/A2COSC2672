@@ -3,11 +3,6 @@
 # Include trybatch.sh as a library
 source ./try_catch
 
-# Define custom exception types
-export ERR_CLOSE=100
-export ERR_DEPENDANCIES=101
-export ERR_PROFILER=102
-
 try
 (
     #sets parent bash pid for internal reference
