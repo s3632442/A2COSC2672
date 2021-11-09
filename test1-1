@@ -1,0 +1,35 @@
+#!/bin/bash
+
+i=0;
+h=$1;
+
+echo high set "$h"
+
+l=$1;
+
+echo low set "$l"
+
+while [[ "$1" ]] 
+
+do 
+
+((i=i+1))
+
+echo $"inc =" "$i"
+
+if [ "$1" -gt "$h" ]; then h=$1;
+	echo high update $1
+fi
+
+if [ "$1" -lt "$l" ]; then l="$1";
+	echo low update $l
+fi
+
+echo "$1" 
+ 
+shift 
+
+done
+
+echo highest number was "$h"
+echo lowest number was "$l"
