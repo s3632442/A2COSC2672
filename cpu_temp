@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#CPUTEMP=$((`cat /sys/class/thermal/thermal_zone0/temp|cut -c1-2`)).$((`cat /sys/class/thermal/thermal_zone0/temp|cut -c3-4`))
+#CPUTEMP=$(cat /sys/class/thermal/thermal_zone0/temp)
+CPUTEMP=$(awk '{print $1/1000}' /sys/class/thermal/thermal_zone0/temp | cut -c1-4)
+
+echo "$CPUTEMP" >> ./logs/cputmp.txt
+
+echo cpu temp
+tail -n 1 ./logs/cputmp.txt

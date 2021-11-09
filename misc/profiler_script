@@ -1,0 +1,41 @@
+#!/bin/bash
+
+dpkg -s sysstat &> /dev/null
+
+echo "sysstat"
+
+
+    if ! dpkg -s sysstat &> /dev/null
+
+        then
+            echo "not installed"  
+            sudo apt-get update
+            sudo apt-get install sysstat
+
+        else
+            echo    "installed"
+    fi
+
+profiler_run=10
+
+while [[ profiler_run -ge 0  ]] ; do  
+
+sleep .1
+
+cputemp=$(cat /sys/class/thermal/thermal_zone0/temp|cut -c1-2)
+
+echo CPU TEMP IS "$cputemp"
+
+echo GPU FREQ IS ; 
+
+vcgencmd get_config int |
+
+egrep "(gpu)_freq"
+ 
+echo MEMORY STATS ARE ; free
+
+echo CPU USAGE ; mpstat
+
+((profiler_run--)) 
+
+done

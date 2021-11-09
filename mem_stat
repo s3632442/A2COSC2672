@@ -1,0 +1,11 @@
+#!/bin/bash
+
+MSTAT=$(free -h | cut -c13-80)
+
+MSTAT=$(echo $MSTAT | sed -e "s/total used free shared buff\/cache available //g" | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
+
+echo $MSTAT  >> ./logs/mstat.txt
+
+#cat mstat.txt
+echo mem sats
+tail -n 1 ./logs/mstat.txt

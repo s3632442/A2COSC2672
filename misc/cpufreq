@@ -1,0 +1,26 @@
+#!/bin/bash
+
+CLOCKHZ=$((vcgencmd measure_clock arm) | cut -c15-25) 
+
+MHZDV=100000000 
+
+CLKMHZ=$((CLOCKHZ / MHZDV)) 
+
+
+echo $CLKMHZ >> ./logs/cpufreq.txt
+
+echo cpu freqency
+tail -n 1 cpufreq.txt
+
+
+
+
+
+
+
+
+
+
+
+
+

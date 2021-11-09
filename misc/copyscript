@@ -1,0 +1,33 @@
+#!/bin/bash
+
+echo "running copy script"
+
+if [[ ! -f "$HOME/backup" ]]
+then
+	mkdir "$HOME/backup"
+fi
+if [[ -f "$HOME/backup" ]]
+then 
+	echo file created
+else 
+	echo backupfolder exists
+fi
+
+one="$HOME/client.cert"
+two="$HOME/backup/client.cert"
+three="$HOME/client.key"
+four="$HOME/backup/client.key"
+
+
+
+cp "$one" "$two"
+
+cp "$three" "$four"
+
+ls -lh "$two"
+
+ls -h "$four"
+
+if [[ "$?" -eq "0" ]] ; then echo "It Copied" ; else echo "Bullshit!"
+	 
+fi
