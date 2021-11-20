@@ -250,13 +250,13 @@ try
         #./report
 
 ) || throw $GNUPLOT_ERR
-
+(
         #call kill sequence from logfile value set by child script
         LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
 
         #fires kill code for led control
         kill -USR2 "$LED_KILL_CODE" 2>/dev/null
-
+) || throw $LED_ERR
         #inform user
         printf "\\n-  -  -   -   -  - LOG @ ./logs/ , IMG @ ./images/ - -   -   -   -   -   -   "
         printf "\\n-  -  -   -   -   -   -  - PROFILER CLOSED - -   -   -   -   -   -   -   -   "
@@ -436,6 +436,10 @@ catch || {
         ;;
         $GNUPLOT_ERR)
             echo "gnuplot failed to plot graphs"
+        ;;
+        $LED_ERR)
+            echo "Led control failed to shut down"
+            kill -9 $!
         ;;
         *)
             echo "Unknown error: $exit_code"
