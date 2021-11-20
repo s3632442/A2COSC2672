@@ -129,55 +129,55 @@ try
         echo "$SECINC" "$CLKGHZ" >>./logs/cpufreq.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MMTO=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$1}" | cut -c 1-3)
+        MMTO=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$1}" | cut -c 1-3 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MMTO" >>./logs/mmto.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MMUS=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$2}" | cut -c 1-2)
+        MMUS=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$2}" | cut -c 1-2 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MMUS" >>./logs/mmus.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MMFR=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$3}" | cut -c 1-3)
+        MMFR=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$3}" | cut -c 1-3 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MMFR" >>./logs/mmfr.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MMSH=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$4}" | cut -c 1-3)
+        MMSH=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$4}" | cut -c 1-3 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MMSH" >>./logs/mmsh.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MMCA=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$5}" | cut -c 1-3)
+        MMCA=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$5}" | cut -c 1-3 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MMCA" >>./logs/mmca.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MMAV=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$6}" | cut -c 1-3)
+        MMAV=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$6}" | cut -c 1-3 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MMAV" >>./logs/mmav.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MSWTO=$(free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$1}" | cut -c 1-2)
+        MSWTO=$(free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$1}" | cut -c 1-2 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MSWTO" >>./logs/mswto.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MSWUS=$(free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$2}" | cut -c 1-3)
+        MSWUS=$(free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$2}" | cut -c 1-3 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MSWUS" >>./logs/mswus.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MSWFR=$(free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$3}" | cut -c 1-2)
+        MSWFR=$(free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$3}" | cut -c 1-2 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MSWFR" >>./logs/mswfr.dat
@@ -234,23 +234,23 @@ try
         #inform user
         printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 (
-        #psercentages to graph display and save to png
-        #plot cpu
-        ./gnuplot_scripts/cpu_util
+        # #psercentages to graph display and save to png
+        # #plot cpu
+        # ./gnuplot_scripts/cpu_util
 
-        #plot cpu and gpu temp
-        ./gnuplot_scripts/cpu_gpu_temp
+        # #plot cpu and gpu temp
+        # ./gnuplot_scripts/cpu_gpu_temp
 
-        #plot memory in Gi
-        ./gnuplot_scripts/memory_Gi
+        # #plot memory in Gi
+        # ./gnuplot_scripts/memory_Gi
 
-        #plot memory in Mi
-        ./gnuplot_scripts/memory_Mi
+        # #plot memory in Mi
+        # ./gnuplot_scripts/memory_Mi
 
-        sleep .25
+        # sleep .25
 
-        #load report
-        ./report
+        # #load report
+        # ./report
 
         echo completed
 
@@ -317,55 +317,55 @@ try
         #save output to logfile
         echo "$SECINC" "$CLKGHZ" >>./logs/cpufreq.dat
 
-        MMTO=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$1}" | cut -c 1-3)
+        MMTO=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$1}" | cut -c 1-3 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MMTO" >>./logs/mmto.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MMUS=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$2}" | cut -c 1-2)
+        MMUS=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$2}" | cut -c 1-2 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MMUS" >>./logs/mmus.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MMFR=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$3}" | cut -c 1-3)
+        MMFR=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$3}" | cut -c 1-3 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MMFR" >>./logs/mmfr.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MMSH=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$4}" | cut -c 1-3)
+        MMSH=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$4}" | cut -c 1-3 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MMSH" >>./logs/mmsh.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MMCA=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$5}" | cut -c 1-3)
+        MMCA=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$5}" | cut -c 1-3 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MMCA" >>./logs/mmca.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MMAV=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$6}" | cut -c 1-3)
+        MMAV=$(free -h | cut -c13-80 | awk "(FNR>1 && FNR<3)" | awk "{ print \$6}" | cut -c 1-3 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MMAV" >>./logs/mmav.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MSWTO=$(free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$1}" | cut -c 1-2)
+        MSWTO=$(free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$1}" | cut -c 1-2 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MSWTO" >>./logs/mswto.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MSWUS=$(free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$2}" | cut -c 1-3)
+        MSWUS=$(free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$2}" | cut -c 1-3 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MSWUS" >>./logs/mswus.dat
 
         #retrieve data, extract desired elements, format and assign to variable
-        MSWFR=$(free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$3}" | cut -c 1-2)
+        MSWFR=$(free -h | cut -c13-80 | awk "(FNR>2 && FNR<4)" | awk "{ print \$3}" | cut -c 1-2 | sed -e "s/Gi//g" | sed -e "s/Mi//g" |  sed -e "s/B//g" )
 
         #save output to logfile
         echo "$SECINC" "$MSWFR" >>./logs/mswfr.dat
