@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Include trybatch.sh as a library
+# shellcheck source=/dev/null
 source ./try_catch
 
 try
