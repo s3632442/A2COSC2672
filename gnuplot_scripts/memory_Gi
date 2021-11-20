@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PATH=$PATH:/usr/bin/gnuplot:/usr/lib/gnuplot:/usr/share/gnuplot:/usr/share/man/man1/
+
 gnuplot -e "set title \"MAIN MEMORY\"; set ylabel \"GB\"; set xlabel \"SECONDS\"; 
 plot \"./logs/mmto.dat\" using 2 title 'mem-total' with linespoints, \
 \"./logs/mmca.dat\" using 2 title 'mem-cache' with linespoints, \

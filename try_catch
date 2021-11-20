@@ -1,20 +1,23 @@
 #!/bin/bash
 
+#try block 
 function try()
 {
     echo $$
-    [[ $- = *e* ]]; SAVED_OPT_E=$?
+    [[ $- = *e* ]]; ERROR_OPT=$?
     set +e
 }
 
+#thow exit code
 function throw()
 {
     exit $1
 }
 
+#catch function
 function catch()
 {
     export exception_code=$?
-    (( $SAVED_OPT_E )) && set +e
+    (( $ERROR_OPT )) && set +e
     return $exception_code
 }

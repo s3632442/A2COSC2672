@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PATH=$PATH:/usr/bin/gnuplot:/usr/lib/gnuplot:/usr/share/gnuplot:/usr/share/man/man1/
+
 gnuplot -e "set title \"CPU UTILIZATION\"; set ylabel \"PERCENTAGE % (x100)\"; set xlabel \"SECONDS\"; 
 plot \"./logs/cpuusr.dat\" using 2 title 'USER' with linespoints, \
 \"./logs/cpusys.dat\" using 2 title 'SYSTEM' with linespoints, \

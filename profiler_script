@@ -4,9 +4,7 @@
 # shellcheck source=/dev/null
 source ./try_catch
 
-export PATH=/usr/bin/:/usr/lib/:/usr/share/:/usr/share/man/man1/:/etc/sysstat:/usr/share/man/man5/
-
-sudo echo 
+PATH=$PATH:/usr/bin/:/usr/lib/:/usr/share/:/usr/share/man/man1/:/etc/sysstat:/usr/share/man/man5/:/usr/bin/free:/usr/share/man/man3/:/usr/share/man/man1/:/usr/bin/mpstat:/usr/share/man/man1/:/usr/bin/vcgencmd:/opt/vc/bin/vcgencmd
 
 try
 (
@@ -41,7 +39,7 @@ try
         CLOCKHZ=$( (vcgencmd measure_clock arm) | cut -c15-25)
 
         #GHZ divisor
-        GHZDV=100000000
+        readonly GHZDV=100000000
 
         #processing data to represent GHZ
         CLKGHZ=$((CLOCKHZ / GHZDV))
@@ -167,20 +165,17 @@ try
         #delay to make sequence change obvious
         sleep 1
 
-        #inform user
-        printf "\\n-  -  -   -   -  - LOG @ ./logs/ , IMG @ ./images/ - -   -   -   -   -   -   "
-        printf "\\n-  -  -   -   -   -   -  - PROFILER CLOSED - -   -   -   -   -   -   -   -   "
-        printf "\\n-  -  -   -   -   -  -  - REPORT @ ./report - -   -   -   -   -   -   -   -   "
-
-        #delay for readability
-        sleep 2
-        printf "\\n-  -  -   -   -   -   - - ENTER TO CONSOLE - -   -   -   -   -    -   -   -   "
-
         #call kill sequence from logfile value set by child script
         LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
 
         #fires kill code for led control
         kill -USR2 "$LED_KILL_CODE" 2>/dev/null
+
+        #inform user
+        printf "\\n-  -  -   -   -  - LOG @ ./logs/ , IMG @ ./images/ - -   -   -   -   -   -   "
+        printf "\\n-  -  -   -   -   -   -  - PROFILER CLOSED - -   -   -   -   -   -   -   -   "
+        printf "\\n-  -  -   -   -   -  -  - REPORT @ ./report - -   -   -   -   -   -   -   -   "
+        printf "\\n-  -  -   -   -   -   - - ENTER TO CONSOLE - -   -   -   -   -    -   -   -   "
 
         #exit and set code
         exit 0
@@ -194,6 +189,25 @@ try
 
     #exits false if any effor occurs
     set -o pipefail -e
+
+    # USR_PRIV=$(id -u)
+
+    # if [[ $USR_PRIV -eq 0 ]]; 
+    #     then 
+        
+    #     # if [ -n "$SUDO_USER" ]
+    #     #     then
+    #     #     printf "This script has to run as root (not sudo)\n" 
+    #     #     exit 1
+    #     # fi
+            
+    #     continue
+
+    #     else
+    #     printf "This script must be run as root please execute as sudo" 
+        
+    #     exit 1 
+    # fi
 
     #inform user
     sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" "$EXIT_PID"
@@ -293,8 +307,6 @@ try
     printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -  -"
     printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  -  -  -" "$EXIT_PID"
     printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -   -"
-
-    
 
     #exits false if any effor occurs
     set +o pipefail +e
