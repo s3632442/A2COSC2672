@@ -4,13 +4,12 @@
 # shellcheck source=/dev/null
 source ./try_catch
 
+export PATH=/usr/bin/:/usr/lib/:/usr/share/:/usr/share/man/man1/:/etc/sysstat:/usr/share/man/man5/
+
+sudo echo 
+
 try
 (
-    #sets parent bash pid for internal reference
-    EXIT_PID=$BASHPID
-    #initiate increment
-    SECINC=0
-
     #trap signal, call close sequence
     trap close USR1
 
@@ -197,7 +196,7 @@ try
     set -o pipefail -e
 
     #inform user
-    sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" $EXIT_PID
+    sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" "$EXIT_PID"
 
     #inform user
     printf "\\n-  -   -     -   -   -   - STARTING PROFILER - -   -   -   -   -   -   -   -   "
@@ -281,14 +280,21 @@ try
     #finish installation confirmation sequence
     fi
 
-    #inform user
-    printf "\\n-  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -  -   -   -  -"
-    printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -  -"
-    printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  -  -  -" $EXIT_PID
-    printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -   -"
+    #sets parent bash pid for internal reference
+    EXIT_PID=$BASHPID
+    #initiate increment
+    SECINC=0
 
     #run led control script
     ./led_control &
+
+    #inform user
+    printf "\\n-  -  -   -   -   -   -  - PROFILER RUNNING - -   -   -   -  -   -   -  -"
+    printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -  -"
+    printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  -  -  -" "$EXIT_PID"
+    printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -   -"
+
+    
 
     #exits false if any effor occurs
     set +o pipefail +e
