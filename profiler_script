@@ -12,7 +12,6 @@ try
  #dependancy installation
 
     #exits false if any effor occurs
-    set -o pipefail -e
 
     #inform user
     sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" "$EXIT_PID"
@@ -228,6 +227,10 @@ try
         #save output to logfile
         echo "$SECINC" "$CPU_av" >>./logs/cpu_av.dat
 
+
+        #exits false if any effor occurs
+        set +o pipefail +e
+
         #inform user
         printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 (
@@ -249,6 +252,8 @@ try
         #load report
         ./report
 
+        echo completed
+
 ) || throw $GNUPLOT_ERR
 (
         #call kill sequence from logfile value set by child script
@@ -263,13 +268,8 @@ try
         printf "\\n-  -  -   -   -   -  -  - REPORT @ ./report - -   -   -   -   -   -   -   -   "
         printf "\\n-  -  -   -   -   -   - - ENTER TO CONSOLE - -   -   -   -   -    -   -   -   "
 
-        
-
         #exit and set code
         exit 0
-
-        #exits false if any effor occurs
-        set +o pipefail +e
 
     }
    
@@ -286,9 +286,6 @@ try
     printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -  -"
     printf "\\n-   -  -  -TO EXIT TYPE \"kill -USR1 %s\" AND PRESS ENTER- -  -   -  -  -  -" "$EXIT_PID"
     printf "\\n-  -  -   -   -   -  - ENTER OR CTRL+Z FOR CONSOLE -  -   -    -   -   -   -"
-
-    #exits false if any effor occurs
-    set +o pipefail +e
 
     #profiler loop
     while true; do
@@ -415,10 +412,11 @@ try
         #delay timer
         sleep 1
 
-        #exits false if any effor occurs
-        set +o pipefail +e
         #increment seconds
         ((++SECINC))
+
+        #exits false if any effor occurs
+        set +o pipefail +e
 
         #loop complete
     done
@@ -429,24 +427,24 @@ catch || {
 
     case $exception_code in
         $INIT_ERR)
-            echo "Failed to install the prerequisites for this script"
+            printf "Failed to install the prerequisites for this script"
         ;;
         $PROFILER_ERR)
-            echo "Failed to collect metrics"
+            printf "Failed to collect metrics"
         ;;
         $GNUPLOT_ERR)
-            echo "gnuplot failed to plot graphs"
+            printf "gnuplot failed to plot graphs"
         ;;
         $LED_ERR)
-            echo "Led control failed to shut down"
+            printf "Led control failed to shut down"
             kill -9 $!
         ;;
         *)
-            echo "Unknown error: $exit_code"
+            EXIT_CODE=$?
+            printf "An error occured that caused the script to fail"
+            printf "Unknown error: %s""$EXIT_CODE"
             throw $exit_code    # re-throw an unhandled exception
         ;;
     esac
-
-    echo an error occured that caused the script to fail with exit code $?
 
 }

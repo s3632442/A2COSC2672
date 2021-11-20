@@ -1,3 +1,177 @@
+commit c375836c0fa2ce569bbb894fbe477ea30022ccc6
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Nov 21 06:24:23 2021 +1100
+
+    report auto generate
+
+commit 2efdb340ea0024e573ccff3e4a46a8cde0b84cf1
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Nov 21 04:52:18 2021 +1100
+
+    more reliable
+
+commit bac423fcc5fb4ed3980f17fcc054844a1473a2c8
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Nov 21 04:46:54 2021 +1100
+
+    more reliable
+
+commit 7d4469324ff9e31fbc3dc5895fc3893022f79699
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sat Nov 20 23:52:43 2021 +1100
+
+    refienments
+
+commit d31a05adf98f82398e26b3a05bd30d0468ea9c90
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sat Nov 20 17:58:07 2021 +1100
+
+    ironing out little kinks
+
+commit 12a952d59d18569f505f2ee9d4a7a9b8e89cd6c0
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sat Nov 20 16:41:55 2021 +1100
+
+    shellcheck external source issue
+
+commit 79ad8e76545f369ca075797f8012e60ef059585e
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sat Nov 20 16:18:01 2021 +1100
+
+    timedate updated
+
+commit 6a4f66c9ca1f6d566b67e19c77b6245622ba4eaa
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 19:20:06 2021 +1100
+
+    backing up
+
+commit cd1c30e43602d3d66fbe82ce897670259e104ecf
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 19:13:19 2021 +1100
+
+    renamed to profilersrcipt
+
+commit f38b0ca5841a44914c927a5caa6da79584c3d05d
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 18:59:03 2021 +1100
+
+    reenabled led and graphs
+
+commit f907424814dfa418d1cce2abcc8747672214351b
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 18:56:59 2021 +1100
+
+    catch with message
+
+commit 56bc1ad46cce1c77630fb4b246106ab581994c35
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 18:40:03 2021 +1100
+
+    working and formatted
+
+commit 08cd0b1f2daf5b7bd42a4636e40fc236b18c61de
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 18:24:18 2021 +1100
+
+    nealry bug free
+
+commit cf83b83c4c53599e88cc7016387037a9e7540fb6
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 18:10:15 2021 +1100
+
+    chasing bugs
+
+commit bf2a70485dc3d188b79b2ea12332ce685c8e4bde
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 17:43:25 2021 +1100
+
+    working better
+
+commit 992d1c1fa8edecae9377aa133bbac497bafb20f9
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 16:18:38 2021 +1100
+
+    try catch working
+
+commit 00b8a839150116bf9ad090824e250f3b5764c076
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 15:43:50 2021 +1100
+
+    getting there
+
+commit ead0664db0d1ad926d0fdb6067424c5d5fddaa19
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 15:32:11 2021 +1100
+
+    try working
+
+commit e5a06b1479415098d92cd69f44afb672cbb8bb89
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 12:15:40 2021 +1100
+
+    better error handling
+
+commit 566c15f99619f1b2d68884b20ec29cc3e7a31648
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 11:29:01 2021 +1100
+
+    errE working
+
+commit 4ef8e60e1bb0717fde525f9307ef89bbf1a78f04
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 09:42:07 2021 +1100
+
+    all seems to work
+
+commit 80b75a6edac016dc4a99595bd984f610bf2022cd
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 08:47:26 2021 +1100
+
+    error handling working but needs work
+
+commit 8e847f7eb2ab244cfdaa20aecfca3149fc9e991b
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 07:18:40 2021 +1100
+
+    added sudo request to avoid errors
+
+commit 49923b48dba6605fb4286a0f43379ab8e6ef4187
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 05:53:05 2021 +1100
+
+    regular backup
+
+commit e2005ac746da17e971470bb873e3e265f72691a0
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sun Oct 24 05:33:28 2021 +1100
+
+    known good state
+
+commit 0150f0764ad58d658106ecb3a13eb067e97d1975
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sat Oct 23 23:49:22 2021 +1100
+
+    led task complete just error handling to go
+
+commit eee523947386eaaa894caaf783d020d9f3c46ec5
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sat Oct 23 22:34:31 2021 +1100
+
+    led flashing correctly
+
+commit 114e32799237365265db3394ebc12ce01b598c32
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sat Oct 23 16:21:13 2021 +1100
+
+    led control p1
+
+commit daf6e27faa7027f268ca4a9a9d5fddbd870ae7ff
+Author: Thomas Lambert <s3632442@student.rmit.edu.au>
+Date:   Sat Oct 23 12:59:12 2021 +1100
+
+    getting ready for submisssion
+
 commit 854b8047ca19996ba7acbea598e003d120e8daf3
 Author: Thomas Lambert <s3632442@student.rmit.edu.au>
 Date:   Sat Oct 23 02:43:30 2021 +1100
