@@ -8,6 +8,91 @@ PATH=$PATH:/usr/bin/:/usr/lib/:/usr/share/:/usr/share/man/man1/:/etc/sysstat:/us
 
 try
 (
+(
+ #dependancy installation
+
+    #exits false if any effor occurs
+    set -o pipefail -e
+
+    #inform user
+    sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" "$EXIT_PID"
+
+    #inform user
+    printf "\\n-  -   -     -   -   -   - STARTING PROFILER - -   -   -   -   -   -   -   -   "
+
+    #check if old logs exist
+    if [[ -f ./logs/cpusys.dat && -f ./logs/mswfr.dat && -f ./logs/gputemp.dat && -f ./logs/kill_code.dat && -f ./logs/mmav.dat && -f ./logs/mmus.dat && -f ./logs/mmfr.dat && -f ./logs/mmca.dat && -f ./logs/mswus.dat && -f ./logs/cpu_sy.dat && -f ./logs/mmto.dat && -f ./logs/cpufreq.dat && -f ./logs/cpu_av.dat && -f ./logs/mswto.dat && -f ./logs/cputemp.dat && -f ./logs/mmsh.dat && -f ./logs/cpuidl.dat && -f ./logs/cpu_us.dat && -f ./logs/cpuusr.dat ]]; then
+
+        #inform user
+        printf "\\ndata logs cleared"
+
+        #clear old logs
+        rm -r ./logs/*
+
+    fi
+
+    #inform user
+    printf "\\nsysstat is required"
+
+    #inform user
+    printf "\\nchecking if sysstat installed"
+
+    #check if sysstat is installed
+    if ! dpkg -s sysstat &>/dev/null; then #if not installed, update and install
+
+        #inform user
+        printf "\\nnot installed - installing"
+
+        #update os
+        sudo apt-get update
+
+        #install systat
+        sudo apt-get install sysstat
+
+        #inform user
+        printf "\\ninstalled - continuing"
+
+    #if installed continue without installing
+    else
+
+        #inform user
+        printf "\\ninstalled"
+
+    #finish installation confirmation sequence
+    fi
+
+    #inform user
+    printf "\\ngnuplot is required"
+
+    #inform user
+    printf "\\nchecking if gnuplot installed"
+
+    #check if gnupot installed
+    if ! dpkg -s gnuplot &>/dev/null; then #if not installed, update and install
+
+        #inform user
+        printf "\\ngnuplot not installed - installing"
+
+        #update os
+        sudo apt-get update
+
+        #install systat
+        sudo apt-get install gnuplot
+
+        #inform user
+        printf "\\ngnuplot installed - continuing"
+
+    #if installed continue without installing
+    else
+
+        #inform user
+        printf "\\ninstalled"
+
+    #finish installation confirmation sequence
+    fi
+) || throw $INIT_ERR
+
+(
     #trap signal, call close sequence
     trap close USR1
 
@@ -19,9 +104,6 @@ try
         set -o pipefail -e
         #inform user
         printf "\\n-  -   -   -   -   -   -   - SAVING - -   -   -   -   -   -   -   -   "
-
-        #delay for user to readability
-        sleep 1
 
         #get cpu temp, format data and save to log
         CPUTEMP=$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c1-2).$(awk '{print $1}' /sys/class/thermal/thermal_zone0/temp | cut -c3-4)
@@ -148,7 +230,7 @@ try
 
         #inform user
         printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
-
+(
         #psercentages to graph display and save to png
         #plot cpu
         ./gnuplot_scripts/cpu_util
@@ -162,8 +244,12 @@ try
         #plot memory in Mi
         ./gnuplot_scripts/memory_Mi
 
-        #delay to make sequence change obvious
-        sleep 1
+        sleep .25
+
+        #load report
+        #./report
+
+) || throw $GNUPLOT_ERR
 
         #call kill sequence from logfile value set by child script
         LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
@@ -177,6 +263,8 @@ try
         printf "\\n-  -  -   -   -   -  -  - REPORT @ ./report - -   -   -   -   -   -   -   -   "
         printf "\\n-  -  -   -   -   -   - - ENTER TO CONSOLE - -   -   -   -   -    -   -   -   "
 
+        
+
         #exit and set code
         exit 0
 
@@ -184,116 +272,7 @@ try
         set +o pipefail +e
 
     }
-
-    #dependancy installation
-
-    #exits false if any effor occurs
-    set -o pipefail -e
-
-    # USR_PRIV=$(id -u)
-
-    # if [[ $USR_PRIV -eq 0 ]]; 
-    #     then 
-        
-    #     # if [ -n "$SUDO_USER" ]
-    #     #     then
-    #     #     printf "This script has to run as root (not sudo)\n" 
-    #     #     exit 1
-    #     # fi
-            
-    #     continue
-
-    #     else
-    #     printf "This script must be run as root please execute as sudo" 
-        
-    #     exit 1 
-    # fi
-
-    #inform user
-    sudo printf "\\nTo exit at any time type \"kill -USR1 %s\"" "$EXIT_PID"
-
-    #inform user
-    printf "\\n-  -   -     -   -   -   - STARTING PROFILER - -   -   -   -   -   -   -   -   "
-
-    #delay for readability
-    sleep 1
-
-    #check if old logs exist
-    if [[ -f ./logs/cpusys.dat && -f ./logs/mswfr.dat && -f ./logs/gputemp.dat && -f ./logs/kill_code.dat && -f ./logs/mmav.dat && -f ./logs/mmus.dat && -f ./logs/mmfr.dat && -f ./logs/mmca.dat && -f ./logs/mswus.dat && -f ./logs/cpu_sy.dat && -f ./logs/mmto.dat && -f ./logs/cpufreq.dat && -f ./logs/cpu_av.dat && -f ./logs/mswto.dat && -f ./logs/cputemp.dat && -f ./logs/mmsh.dat && -f ./logs/cpuidl.dat && -f ./logs/cpu_us.dat && -f ./logs/cpuusr.dat ]]; then
-
-        #inform user
-        printf "\\ndata logs cleared"
-
-        #clear old logs
-        rm -r ./logs/*
-
-    fi
-
-    sleep 1
-
-    #inform user
-    printf "\\nsysstat is required"
-
-    #inform user
-    printf "\\nchecking if sysstat installed"
-
-    #check if sysstat is installed
-    if ! dpkg -s sysstat &>/dev/null; then #if not installed, update and install
-
-        #inform user
-        printf "\\nnot installed - installing"
-
-        #update os
-        sudo apt-get update
-
-        #install systat
-        sudo apt-get install sysstat
-
-        #inform user
-        printf "\\ninstalled - continuing"
-
-    #if installed continue without installing
-    else
-
-        #inform user
-        printf "\\ninstalled"
-
-    #finish installation confirmation sequence
-    fi
-
-    #delay for readability
-    sleep 1
-
-    #inform user
-    printf "\\ngnuplot is required"
-
-    #inform user
-    printf "\\nchecking if gnuplot installed"
-
-    #check if gnupot installed
-    if ! dpkg -s gnuplot &>/dev/null; then #if not installed, update and install
-
-        #inform user
-        printf "\\ngnuplot not installed - installing"
-
-        #update os
-        sudo apt-get update
-
-        #install systat
-        sudo apt-get install gnuplot
-
-        #inform user
-        printf "\\ngnuplot installed - continuing"
-
-    #if installed continue without installing
-    else
-
-        #inform user
-        printf "\\ninstalled"
-
-    #finish installation confirmation sequence
-    fi
-
+   
     #sets parent bash pid for internal reference
     EXIT_PID=$BASHPID
     #initiate increment
@@ -443,8 +422,26 @@ try
 
         #loop complete
     done
+) || throw $PROFILER_ERR
+
 )
 catch || {
+
+    case $exception_code in
+        $INIT_ERR)
+            echo "Failed to install the prerequisites for this script"
+        ;;
+        $PROFILER_ERR)
+            echo "Failed to collect metrics"
+        ;;
+        $GNUPLOT_ERR)
+            echo "gnuplot failed to plot graphs"
+        ;;
+        *)
+            echo "Unknown error: $exit_code"
+            throw $exit_code    # re-throw an unhandled exception
+        ;;
+    esac
 
     echo an error occured that caused the script to fail with exit code $?
 
