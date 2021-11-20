@@ -21,7 +21,7 @@ try
     printf "\\n-  -   -     -   -   -   - STARTING PROFILER - -   -   -   -   -   -   -   -   "
 
     #check if old logs exist
-    if [[ -f ./logs/cpusys.dat && -f ./logs/mswfr.dat && -f ./logs/gputemp.dat && -f ./logs/kill_code.dat && -f ./logs/mmav.dat && -f ./logs/mmus.dat && -f ./logs/mmfr.dat && -f ./logs/mmca.dat && -f ./logs/mswus.dat && -f ./logs/cpu_sy.dat && -f ./logs/mmto.dat && -f ./logs/cpufreq.dat && -f ./logs/cpu_av.dat && -f ./logs/mswto.dat && -f ./logs/cputemp.dat && -f ./logs/mmsh.dat && -f ./logs/cpuidl.dat && -f ./logs/cpu_us.dat && -f ./logs/cpuusr.dat ]]; then
+    if [[ -f ./logs/cpusys.dat || -f ./logs/mswfr.dat || -f ./logs/gputemp.dat || -f ./logs/kill_code.dat || -f ./logs/mmav.dat || -f ./logs/mmus.dat || -f ./logs/mmfr.dat || -f ./logs/mmca.dat || -f ./logs/mswus.dat || -f ./logs/cpu_sy.dat || -f ./logs/mmto.dat || -f ./logs/cpufreq.dat || -f ./logs/cpu_av.dat || -f ./logs/mswto.dat || -f ./logs/cputemp.dat || -f ./logs/mmsh.dat || -f ./logs/cpuidl.dat || -f ./logs/cpu_us.dat || -f ./logs/cpuusr.dat ]]; then
 
         #inform user
         printf "\\ndata logs cleared"
@@ -247,7 +247,7 @@ try
         sleep .25
 
         #load report
-        #./report
+        ./report
 
 ) || throw $GNUPLOT_ERR
 (
