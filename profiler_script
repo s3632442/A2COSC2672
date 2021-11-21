@@ -89,7 +89,7 @@ try
 
     #finish installation confirmation sequence
     fi
-) || throw $INIT_ERR
+) || "throw $INIT_ERR"
 
 (
     #trap signal, call close sequence
@@ -250,18 +250,18 @@ try
         sleep .25
 
         #load report
-        ./report
+        #./report
 
         echo completed
 
-) || throw $GNUPLOT_ERR
+) || "throw $GNUPLOT_ERR"
 (
         #call kill sequence from logfile value set by child script
         LED_KILL_CODE=$(tail -1 ./logs/kill_code.dat | awk '{print $1}')
 
         #fires kill code for led control
         kill -USR2 "$LED_KILL_CODE" 2>/dev/null
-) || throw $LED_ERR
+) || "throw $LED_ERR"
         #inform user
         printf "\\n-  -  -   -   -  - LOG @ ./logs/ , IMG @ ./images/ - -   -   -   -   -   -   "
         printf "\\n-  -  -   -   -   -   -  - PROFILER CLOSED - -   -   -   -   -   -   -   -   "
@@ -420,11 +420,12 @@ try
 
         #loop complete
     done
-) || throw $PROFILER_ERR
+) || "throw $PROFILER_ERR"
 
 )
 catch || {
 
+    # shellcheck disable=SC2154
     case $exception_code in
         $INIT_ERR)
             printf "Failed to install the prerequisites for this script"
@@ -443,7 +444,7 @@ catch || {
             EXIT_CODE=$?
             printf "An error occured that caused the script to fail"
             printf "Unknown error: %s""$EXIT_CODE"
-            throw $exit_code    # re-throw an unhandled exception
+            throw "$exit_code"    
         ;;
     esac
 
