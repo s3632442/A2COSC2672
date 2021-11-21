@@ -234,23 +234,23 @@ try
         #inform user
         printf "\\n-  -  -   -   -   -   -   - EXITING - -   -   -   -   -   -   -   -  "
 (
-        # #psercentages to graph display and save to png
-        # #plot cpu
-        # ./gnuplot_scripts/cpu_util
+        #psercentages to graph display and save to png
+        #plot cpu
+        ./gnuplot_scripts/cpu_util
 
-        # #plot cpu and gpu temp
-        # ./gnuplot_scripts/cpu_gpu_temp
+        #plot cpu and gpu temp
+        ./gnuplot_scripts/cpu_gpu_temp
 
-        # #plot memory in Gi
-        # ./gnuplot_scripts/memory_Gi
+        #plot memory in Gi
+        ./gnuplot_scripts/memory_Gi
 
-        # #plot memory in Mi
-        # ./gnuplot_scripts/memory_Mi
+        #plot memory in Mi
+        ./gnuplot_scripts/memory_Mi
 
-        # sleep .25
+        sleep .25
 
-        # #load report
-        # ./report
+        #load report
+        ./report
 
         echo completed
 
